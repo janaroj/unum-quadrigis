@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 
 public class IntroUI {
 	JFrame raam;
-	JPanel raam_ülemine;
+	JPanel raam_ylemine;
 	JPanel raam_logo;
 	private final Logger log = Logger.getLogger(IntroUI.class);
 	// Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -31,10 +31,10 @@ public class IntroUI {
 		raam.setLayout(new GridLayout(2, 1));
 		raam.setLocationRelativeTo(null);
 		raam.setTitle("Unum Quagridis");
-		raam_ülemine = new JPanel();
-		raam_ülemine.setLayout(new GridLayout(5, 1));
+		raam_ylemine = new JPanel();
+		raam_ylemine.setLayout(new GridLayout(5, 1));
 
-		raam.add(raam_ülemine);
+		raam.add(raam_ylemine);
 		raam_logo = new JPanel();
 		raam.add(raam_logo);
 		// JPanel teamName = new JPanel(), leaderName = new JPanel(),
@@ -62,18 +62,18 @@ public class IntroUI {
 		// members.add(m);
 		// logo.add(lg);
 		// version.add(v);
-		raam_ülemine.add(tn);
-		raam_ülemine.add(ln);
-		raam_ülemine.add(le);
-		raam_ülemine.add(m);
+		raam_ylemine.add(tn);
+		raam_ylemine.add(ln);
+		raam_ylemine.add(le);
+		raam_ylemine.add(m);
 		raam_logo.add(lg);
-		raam_ülemine.add(v);
-		// raam_ülemine.add(teamName);
-		// raam_ülemine.add(leaderName);
-		// raam_ülemine.add(leaderEmail);
-		// raam_ülemine.add(members);
+		raam_ylemine.add(v);
+		// raam_ylemine.add(teamName);
+		// raam_ylemine.add(leaderName);
+		// raam_ylemine.add(leaderEmail);
+		// raam_ylemine.add(members);
 		// raam_logo.add(logo);
-		// raam_ülemine.add(version);
+		// raam_ylemine.add(version);
 		raam.setVisible(true);
 		log.info("Frame created");
 
