@@ -7,7 +7,8 @@
 	<property name="build.dir" value="${basedir}/build" />
 	<property name="build.classes.dir" value="${build.dir}/classes" />
 	<property name="src.dir" value="${basedir}/src" />
-	<property name="conf.dir" value="${basedir}/prop" />
+	<property name="prop.dir" value="${basedir}/prop" />
+	<property name="dist.dir" value="${dist.dir}" />
 	<property name="doc.dir" value="${build.dir}/doc" />
 	<property name="test.reports.dir" value="${build.dir}/reports/" />
 
@@ -22,7 +23,7 @@
 	<path id="test.classpath">
 		<pathelement location="${build.classes.dir}" />
 		<!-- configuration -->
-		<pathelement location="${conf.dir}" />
+		<pathelement location="${prop.dir}" />
 		<fileset dir="lib">
 			<include name="*.jar" />
 		</fileset>
@@ -51,16 +52,21 @@
 	</target>
 
 	<target name="dist" depends="build" description="Export .jar file from /build">
-		<mkdir dir="build/jar" />
-		<jar destfile="build/jar/Unum_Quadrigis.jar" basedir="build/classes">
+		<mkdir dir="${dist.dir}" />
+		<copy todir="${dist.dir}">
+			<fileset dir="." includes="lib/*.jar prop/*.properties res/" />
+		</copy>
+		<jar destfile="${dist.dir}/Unum_Quadrigis.jar" basedir="${build.dir}/classes">
 			<manifest>
 				<attribute name="Main-Class" value="ee.ut.math.tvt.unum_quadrigis.Intro" />
+				<attribute name="Class-Path" value=". lib/log4j-1.2.17.jar ./prop/" />
 			</manifest>
 		</jar>
 	</target>
 
+
 	<target name="jrun" description="Run .jar file created with 'dist'">
-		<java jar="build/jar/Unum_Quadrigis.jar" fork="true" />
+		<java jar="${dist.dir}/Unum_Quadrigis.jar" fork="true" />
 	</target>
 
 </project>
