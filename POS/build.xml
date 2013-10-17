@@ -64,6 +64,17 @@
 				<attribute name="Main-Class" value="ee.ut.math.tvt.unum_quadrigis.Intro" />
 				<attribute name="Class-Path" value=". lib/log4j-1.2.17.jar ./prop/" />
 			</manifest>
+			<fileset dir="${basedir}">
+				<include name="prop/*" />
+			</fileset>
+
+			<fileset dir="${basedir}">
+				<include name="lib/*" />
+			</fileset>
+
+			<fileset dir="${basedir}">
+				<include name="res/*" />
+			</fileset>
 		</jar>
 		<propertyfile file="${prop.dir}/version.properties">
 			<entry key="build.revision.number" type="int" operation="+" value="1" pattern="00" />
@@ -87,6 +98,17 @@
 				<attribute name="Main-Class" value="ee.ut.math.tvt.unum_quadrigis.Intro" />
 				<attribute name="Class-Path" value=". lib/log4j-1.2.17.jar ./prop/" />
 			</manifest>
+			<fileset dir="${basedir}">
+				<include name="prop/*" />
+			</fileset>
+
+			<fileset dir="${basedir}">
+				<include name="lib/*" />
+			</fileset>
+
+			<fileset dir="${basedir}">
+				<include name="res/*" />
+			</fileset>
 		</jar>
 		<propertyfile file="${prop.dir}/version.properties">
 			<entry key="build.minor.number" type="int" operation="+" value="1" pattern="0" />
@@ -110,6 +132,17 @@
 				<attribute name="Main-Class" value="ee.ut.math.tvt.unum_quadrigis.Intro" />
 				<attribute name="Class-Path" value=". lib/log4j-1.2.17.jar ./prop/" />
 			</manifest>
+			<fileset dir="${basedir}">
+				<include name="prop/*" />
+			</fileset>
+
+			<fileset dir="${basedir}">
+				<include name="lib/*" />
+			</fileset>
+
+			<fileset dir="${basedir}">
+				<include name="res/*" />
+			</fileset>
 		</jar>
 		<propertyfile file="${prop.dir}/version.properties">
 			<entry key="build.major.number" type="int" operation="+" value="1" pattern="0" />
