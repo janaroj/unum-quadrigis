@@ -8,17 +8,20 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
+
 public class IntroUI {
 	JFrame raam;
 	JPanel raam_ülemine;
 	JPanel raam_logo;
+	private final Logger log = Logger.getLogger(IntroUI.class);
 	// Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	// //ekraani suuruse ja laiuse jaoks
 	int x, y;
 
 	public IntroUI() {
 		super();
-
+		
 		x = 400;
 		y = 600;
 		raam = new JFrame();
@@ -34,14 +37,19 @@ public class IntroUI {
 		raam.add(raam_ülemine);
 		raam_logo = new JPanel();
 		raam.add(raam_logo);
-//		JPanel teamName = new JPanel(), leaderName = new JPanel(), leaderEmail = new JPanel(), members = new JPanel(), logo = new JPanel(), version = new JPanel();
+		// JPanel teamName = new JPanel(), leaderName = new JPanel(),
+		// leaderEmail = new JPanel(), members = new JPanel(), logo = new
+		// JPanel(), version = new JPanel();
 		Font f = new Font(Font.SERIF, 1, 20), g = new Font(Font.SANS_SERIF, 0,
 				16);
 
-		JLabel tn = new JLabel("Unum Quadrigis", JLabel.CENTER), ln = new JLabel("Marek Pagel", JLabel.CENTER), le = new JLabel(
+		JLabel tn = new JLabel("Unum Quadrigis", JLabel.CENTER), ln = new JLabel(
+				"Marek Pagel", JLabel.CENTER), le = new JLabel(
 				"pagel.marek@gmail.com", JLabel.CENTER), m = new JLabel(
-				"Marek Pagel, Oskar Hint, Eerik Muuli, Janar Ojalaid", JLabel.CENTER), lg = new JLabel(
-				new ImageIcon("lib/temppic.jpg"), JLabel.CENTER), v = new JLabel("versioon", JLabel.CENTER);
+				"Marek Pagel, Oskar Hint, Eerik Muuli, Janar Ojalaid",
+				JLabel.CENTER), lg = new JLabel(
+				new ImageIcon("res/temppic.jpg"), JLabel.CENTER), v = new JLabel(
+				"versioon", JLabel.CENTER);
 		tn.setFont(f);
 		ln.setFont(g);
 		le.setFont(g);
@@ -67,6 +75,7 @@ public class IntroUI {
 		// raam_logo.add(logo);
 		// raam_ülemine.add(version);
 		raam.setVisible(true);
+		log.info("Frame created");
 
 	}
 
