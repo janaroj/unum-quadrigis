@@ -2,6 +2,10 @@ package ee.ut.math.tvt.unum_quadrigis;
 
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -11,72 +15,79 @@ import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 
 public class IntroUI {
-	JFrame raam;
-	JPanel raam_ylemine;
-	JPanel raam_logo;
+	JFrame frame;
+	JPanel frame_upper;
+	JPanel frame_logo;
 	private final Logger log = Logger.getLogger(IntroUI.class);
-	// Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	// //ekraani suuruse ja laiuse jaoks
+
 	int x, y;
 
 	public IntroUI() {
 		super();
-		
-		x = 400;
-		y = 600;
-		raam = new JFrame();
-		raam.setSize(x, y);
-		raam.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Properties prop = new Properties();
+		try {
+			//load the application.properties file
+			prop.load(new FileInputStream("prop//application.properties"));
 
-		raam.setLayout(new GridLayout(2, 1));
-		raam.setLocationRelativeTo(null);
-		raam.setTitle("Unum Quagridis");
-		raam_ylemine = new JPanel();
-		raam_ylemine.setLayout(new GridLayout(5, 1));
+			x = 400;
+			y = 600;
+			frame = new JFrame(); //create main frame
+			frame.setSize(x, y);
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setLayout(new GridLayout(2, 1));
+			frame.setLocationRelativeTo(null);
+			frame.setTitle("Unum Quagridis");
 
-		raam.add(raam_ylemine);
-		raam_logo = new JPanel();
-		raam.add(raam_logo);
-		// JPanel teamName = new JPanel(), leaderName = new JPanel(),
-		// leaderEmail = new JPanel(), members = new JPanel(), logo = new
-		// JPanel(), version = new JPanel();
-		Font f = new Font(Font.SERIF, 1, 20), g = new Font(Font.SANS_SERIF, 0,
-				16);
+			frame_upper = new JPanel(); //create the upper frame for team info
+			frame_upper.setLayout(new GridLayout(5, 1));
+			frame.add(frame_upper);
 
-		JLabel tn = new JLabel("Unum Quadrigis", JLabel.CENTER), ln = new JLabel(
-				"Marek Pagel", JLabel.CENTER), le = new JLabel(
-				"pagel.marek@gmail.com", JLabel.CENTER), m = new JLabel(
-				"Marek Pagel, Oskar Hint, Eerik Muuli, Janar Ojalaid",
-				JLabel.CENTER), lg = new JLabel(
-				new ImageIcon("res/temppic.jpg"), JLabel.CENTER), v = new JLabel(
-				"versioon", JLabel.CENTER);
-		tn.setFont(f);
-		ln.setFont(g);
-		le.setFont(g);
-		m.setFont(g);
-		lg.setFont(g);
-		v.setFont(g);
-		// teamName.add(tn);
-		// leaderName.add(ln);
-		// leaderEmail.add(le);
-		// members.add(m);
-		// logo.add(lg);
-		// version.add(v);
-		raam_ylemine.add(tn);
-		raam_ylemine.add(ln);
-		raam_ylemine.add(le);
-		raam_ylemine.add(m);
-		raam_logo.add(lg);
-		raam_ylemine.add(v);
-		// raam_ylemine.add(teamName);
-		// raam_ylemine.add(leaderName);
-		// raam_ylemine.add(leaderEmail);
-		// raam_ylemine.add(members);
-		// raam_logo.add(logo);
-		// raam_ylemine.add(version);
-		raam.setVisible(true);
-		log.info("Frame created");
+			frame_logo = new JPanel(); //create frame for logo
+			frame.add(frame_logo);
+
+			//create two fonts
+			Font f = new Font(Font.SERIF, 1, 20), g = new Font(Font.SANS_SERIF,
+					0, 16);
+
+			//create all the labels used in frame
+			JLabel tn = new JLabel(prop.getProperty("team.name"), JLabel.CENTER), ln = new JLabel(
+					prop.getProperty("team.leader"), JLabel.CENTER), le = new JLabel(
+					prop.getProperty("team.leader.email"), JLabel.CENTER), m = new JLabel(
+					prop.getProperty("team.members"), JLabel.CENTER), lg = new JLabel(
+					new ImageIcon(prop.getProperty("team.logo")), JLabel.CENTER);
+
+			//load the version.properties file
+			prop.load(new FileInputStream("prop//version.properties"));
+			JLabel v = new JLabel(prop.getProperty("build.number"),
+					JLabel.CENTER);
+
+			//set fonts to labels
+			tn.setFont(f);
+			ln.setFont(g);
+			le.setFont(g);
+			m.setFont(g);
+			lg.setFont(g);
+			v.setFont(g);
+
+			//add labels to frames
+			frame_upper.add(tn);
+			frame_upper.add(ln);
+			frame_upper.add(le);
+			frame_upper.add(m);
+			frame_logo.add(lg);
+			frame_upper.add(v);
+
+			//set frame visible and log the work
+			frame.setVisible(true);
+			log.info("Frame created");
+			
+		} catch (FileNotFoundException e) {
+			log.error("Loading application.properties failed - "
+					+ e.getMessage());
+		} catch (IOException e) {
+			log.error("Loading application.properties failed - "
+					+ e.getMessage());
+		}
 
 	}
-
 }

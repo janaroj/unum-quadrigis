@@ -8,7 +8,7 @@
 	<property name="build.classes.dir" value="${build.dir}/classes" />
 	<property name="src.dir" value="${basedir}/src" />
 	<property name="prop.dir" value="${basedir}/prop" />
-	<property name="dist.dir" value="${dist.dir}" />
+	<property name="dist.dir" value="${build.dir}/jar" />
 	<property name="doc.dir" value="${build.dir}/doc" />
 	<property name="test.reports.dir" value="${build.dir}/reports/" />
 
@@ -32,10 +32,12 @@
 	<!-- Definitions of runnable ant targets.
          Run them from the command line by executing "ant [targetname]"  -->
 
-	<target name="run" depends="build" description="Run the template application">
+	<!-- Run the application -->
+	<target name="run" depends="build" description="Run the application">
 		<java classname="ee.ut.math.tvt.unum_quadrigis.Intro" classpathref="test.classpath" fork="yes" />
 	</target>
 
+	<!-- Build the system -->
 	<target name="build" description="Build the system">
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${build.classes.dir}" />
@@ -51,7 +53,8 @@
 		<delete dir="${build.dir}" />
 	</target>
 
-	<target name="dist" depends="build" description="Export .jar file from /build">
+	<!-- Export .jar file from /build PS! for revisions  -->
+	<target name="dist-revision" depends="build" description="Export .jar file from /build">
 		<mkdir dir="${dist.dir}" />
 		<copy todir="${dist.dir}">
 			<fileset dir="." includes="lib/*.jar prop/*.properties res/" />
@@ -62,9 +65,64 @@
 				<attribute name="Class-Path" value=". lib/log4j-1.2.17.jar ./prop/" />
 			</manifest>
 		</jar>
+		<propertyfile file="${prop.dir}/version.properties">
+			<entry key="build.revision.number" type="int" operation="+" value="1" pattern="00" />
+		</propertyfile>
+
+		<property file="${prop.dir}/version.properties" />
+
+		<propertyfile file="${prop.dir}/version.properties">
+			<entry key="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}" />
+		</propertyfile>
 	</target>
 
+	<!-- Export .jar file from /build PS! for minor updates  -->
+	<target name="dist-minor" depends="build" description="Export .jar file from /build">
+		<mkdir dir="${dist.dir}" />
+		<copy todir="${dist.dir}">
+			<fileset dir="." includes="lib/*.jar prop/*.properties res/" />
+		</copy>
+		<jar destfile="${dist.dir}/Unum_Quadrigis.jar" basedir="${build.dir}/classes">
+			<manifest>
+				<attribute name="Main-Class" value="ee.ut.math.tvt.unum_quadrigis.Intro" />
+				<attribute name="Class-Path" value=". lib/log4j-1.2.17.jar ./prop/" />
+			</manifest>
+		</jar>
+		<propertyfile file="${prop.dir}/version.properties">
+			<entry key="build.minor.number" type="int" operation="+" value="1" pattern="0" />
+		</propertyfile>
 
+		<property file="${prop.dir}/version.properties" />
+
+		<propertyfile file="${prop.dir}/version.properties">
+			<entry key="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}" />
+		</propertyfile>
+	</target>
+
+	<!-- Export .jar file from /build PS! for major updates  -->
+	<target name="dist-major" depends="build" description="Export .jar file from /build">
+		<mkdir dir="${dist.dir}" />
+		<copy todir="${dist.dir}">
+			<fileset dir="." includes="lib/*.jar prop/*.properties res/" />
+		</copy>
+		<jar destfile="${dist.dir}/Unum_Quadrigis.jar" basedir="${build.dir}/classes">
+			<manifest>
+				<attribute name="Main-Class" value="ee.ut.math.tvt.unum_quadrigis.Intro" />
+				<attribute name="Class-Path" value=". lib/log4j-1.2.17.jar ./prop/" />
+			</manifest>
+		</jar>
+		<propertyfile file="${prop.dir}/version.properties">
+			<entry key="build.major.number" type="int" operation="+" value="1" pattern="0" />
+		</propertyfile>
+
+		<property file="${prop.dir}/version.properties" />
+
+		<propertyfile file="${prop.dir}/version.properties">
+			<entry key="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}" />
+		</propertyfile>
+	</target>
+
+	<!-- Run .jar file created with 'dist'  -->
 	<target name="jrun" description="Run .jar file created with 'dist'">
 		<java jar="${dist.dir}/Unum_Quadrigis.jar" fork="true" />
 	</target>
