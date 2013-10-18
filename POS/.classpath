@@ -5,5 +5,7 @@
 	<classpathentry kind="lib" path="res"/>
 	<classpathentry kind="lib" path="prop"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="/lab3-demo/lib"/>
+	<classpathentry kind="lib" path="lib/jgoodies-looks-2.5.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

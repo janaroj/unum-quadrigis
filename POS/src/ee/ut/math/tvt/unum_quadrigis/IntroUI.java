@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
 
-public class IntroUI {
+public class IntroUI extends JFrame{
 	JFrame frame;
 	JPanel frame_upper;
 	JPanel frame_logo;
