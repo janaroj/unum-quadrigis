@@ -13,7 +13,7 @@ public class Intro {
 	private static final String MODE = "console";
 
 	public static void main(String[] args) {
-		new IntroUI();
+
 		final SalesDomainController domainController = new SalesDomainControllerImpl();
 
 		if (args.length == 1 && args[0].equals(MODE)) {
@@ -24,6 +24,7 @@ public class Intro {
 		} else {
 
 			IntroUI introUI = new IntroUI();
+			introUI.setVisible(true);
 			introUI.setAlwaysOnTop(true);
 
 			final SalesSystemUI ui = new SalesSystemUI(domainController);

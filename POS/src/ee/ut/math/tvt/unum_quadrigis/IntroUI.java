@@ -31,19 +31,19 @@ public class IntroUI extends JFrame{
 
 			x = 400;
 			y = 600;
-			frame = new JFrame(); //create main frame
-			frame.setSize(x, y);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.setLayout(new GridLayout(2, 1));
-			frame.setLocationRelativeTo(null);
-			frame.setTitle("Unum Quagridis");
+			//t = new JFrame(); //create main frame
+			this.setSize(x, y);
+			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			this.setLayout(new GridLayout(2, 1));
+			this.setLocationRelativeTo(null);
+			this.setTitle("Unum Quagridis");
 
 			frame_upper = new JPanel(); //create the upper frame for team info
 			frame_upper.setLayout(new GridLayout(5, 1));
-			frame.add(frame_upper);
+			this.add(frame_upper);
 
 			frame_logo = new JPanel(); //create frame for logo
-			frame.add(frame_logo);
+			this.add(frame_logo);
 
 			//create two fonts
 			Font f = new Font(Font.SERIF, 1, 20), g = new Font(Font.SANS_SERIF,
@@ -77,8 +77,7 @@ public class IntroUI extends JFrame{
 			frame_logo.add(lg);
 			frame_upper.add(v);
 
-			//set frame visible and log the work
-			frame.setVisible(true);
+			//log the work
 			log.info("Frame created");
 			
 		} catch (FileNotFoundException e) {
