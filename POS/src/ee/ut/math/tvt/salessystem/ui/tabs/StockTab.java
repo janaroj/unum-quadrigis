@@ -1,10 +1,13 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
+import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -73,7 +76,6 @@ public class StockTab {
     JPanel panel = new JPanel();
 
     JTable table = new JTable(model.getWarehouseTableModel());
-
     JTableHeader header = table.getTableHeader();
     header.setReorderingAllowed(false);
 

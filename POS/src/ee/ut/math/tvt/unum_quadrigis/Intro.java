@@ -29,6 +29,7 @@ public class Intro {
 
 			final SalesSystemUI ui = new SalesSystemUI(domainController);
 			ui.setVisible(true);
+			
 
 			introUI.setAlwaysOnTop(false);
 			try {
