@@ -187,9 +187,6 @@ public class PurchaseTab {
   // switch UI to the state that allows to proceed with the purchase
   private void startNewSale() {
     purchasePane.reset();
-	// Add items to barCodeField
-    purchasePane.addItems();
-    
     purchasePane.setEnabled(true);
     submitPurchase.setEnabled(true);
     cancelPurchase.setEnabled(true);

@@ -4,6 +4,7 @@ import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -18,10 +19,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  * Purchase pane + shopping cart tabel UI.
@@ -35,6 +39,7 @@ public class PurchaseItemPanel extends JPanel {
     private JTextField quantityField;
     private JTextField nameField;
     private JTextField priceField;
+    private JTextField sumField;
     
     private JButton addItemButton;
 
@@ -81,7 +86,7 @@ public class PurchaseItemPanel extends JPanel {
 
         // Create the panel
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(5, 2));
+        panel.setLayout(new GridLayout(6, 2));
         panel.setBorder(BorderFactory.createTitledBorder("Product"));
 
         // Initialize the textfields
@@ -89,15 +94,7 @@ public class PurchaseItemPanel extends JPanel {
         quantityField = new JTextField("1");
         nameField = new JTextField();
         priceField = new JTextField();
-        
-        // Add items to barCodeField
-        int i=0;
-        while (i<model.getWarehouseTableModel().getRowCount()) {
-        	barCodeField.addItem(model.getWarehouseTableModel().getValueAt(i, 1));
-        	i++;
-        }
-        
-        
+        sumField = new JTextField();
         
         
         // Fill the dialog fields if the bar code text field loses focus
@@ -109,16 +106,34 @@ public class PurchaseItemPanel extends JPanel {
                 fillDialogFields();
             }
         });
+        
+        // Fill the sum field when quantity changes
+        quantityField.getDocument().addDocumentListener(new DocumentListener(){
+
+			public void insertUpdate(DocumentEvent e) {
+				setSum();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				setSum();
+			}
+
+			public void changedUpdate(DocumentEvent e) {
+				setSum();
+			}
+        	
+        });
 
         nameField.setEditable(false);
         priceField.setEditable(false);
+        sumField.setEditable(false);
 
         // == Add components to the panel
 
         // - bar code
         panel.add(new JLabel("Bar code:"));
         panel.add(barCodeField);
-
+        
         // - amount
         panel.add(new JLabel("Amount:"));
         panel.add(quantityField);
@@ -130,6 +145,10 @@ public class PurchaseItemPanel extends JPanel {
         // - price
         panel.add(new JLabel("Price:"));
         panel.add(priceField);
+        
+        // - sum
+        panel.add(new JLabel("Sum:"));
+        panel.add(sumField);
 
         // Create and add the button
         addItemButton = new JButton("Add to cart");
@@ -152,9 +171,10 @@ public class PurchaseItemPanel extends JPanel {
             nameField.setText(stockItem.getName());
             String priceString = String.valueOf(stockItem.getPrice());
             priceField.setText(priceString);
+            setSum();
+         
         } else {
             reset();
-            addItems();
         }
     }
 
@@ -203,10 +223,17 @@ public class PurchaseItemPanel extends JPanel {
      * Reset dialog fields.
      */
     public void reset() {
-        barCodeField.removeAllItems();;
+        barCodeField.removeAllItems();
+     // Add items to barCodeField
+        addItems();
+        
+        // Sets focus to barCodeField
+        barCodeField.requestFocusInWindow();
+        
         quantityField.setText("1");
         nameField.setText("");
         priceField.setText("");
+        sumField.setText("");
     }
 
     //adds items to barCodeField
@@ -217,6 +244,24 @@ public class PurchaseItemPanel extends JPanel {
            i++;
           }
     	
+    }
+    
+    //V2ga sarnane addItemEventHandlerile, ilmselt saaks kokku panna
+    public void setSum(){
+    	// add chosen item to the shopping cart.
+        StockItem stockItem = getStockItemByBarcode();
+        if (stockItem != null) {
+    	String quantity = quantityField.getText();
+        //Checks if quantity is a number, if not sets it to 0
+        try{int amount = Integer.parseInt(quantity);
+        if (amount>stockItem.getQuantity()) {quantityField.setBackground(Color.RED);JOptionPane.showMessageDialog(null, "Viga, laos ei ole seda toodet nii palju!","Viga",JOptionPane.ERROR_MESSAGE);addItemButton.setEnabled(false);}
+        else {quantityField.setBackground(Color.WHITE);addItemButton.setEnabled(true);}
+        } catch (NumberFormatException e) {quantity="0";}
+           
+        sumField.setText(String.valueOf(stockItem.getPrice()*Integer.parseInt(quantity)));}
+        else {
+        	reset();
+        }
     }
     /*
      * === Ideally, UI's layout and behavior should be kept as separated as
