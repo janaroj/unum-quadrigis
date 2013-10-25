@@ -256,7 +256,7 @@ public class PurchaseItemPanel extends JPanel {
         try{int amount = Integer.parseInt(quantity);
         if (amount>stockItem.getQuantity()) {quantityField.setBackground(Color.RED);JOptionPane.showMessageDialog(null, "Viga, laos ei ole seda toodet nii palju!","Viga",JOptionPane.ERROR_MESSAGE);addItemButton.setEnabled(false);}
         else {quantityField.setBackground(Color.WHITE);addItemButton.setEnabled(true);}
-        } catch (NumberFormatException e) {quantity="0";}
+        } catch (NumberFormatException e) {quantity="0";addItemButton.setEnabled(false);}
            
         sumField.setText(String.valueOf(stockItem.getPrice()*Integer.parseInt(quantity)));}
         else {
