@@ -45,4 +45,9 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		
 		return dataset;
 	}
+	public List loadHistoryState() {
+		List dataset = new ArrayList();
+		
+		return dataset;
+	}
 }
