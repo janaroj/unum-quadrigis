@@ -181,6 +181,9 @@
 			<arg value="${git.commit.message}" />
 		</exec>
 		<exec executable="git">
+			<aeg value="pull" />
+		</exec>
+		<exec executable="git">
 			<arg value="push" />
 			<arg value="https://${git.userinfo}@github.com/marekpagel/unum-quadrigis.git" />
 		</exec>
