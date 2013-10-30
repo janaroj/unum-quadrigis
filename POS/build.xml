@@ -181,7 +181,7 @@
 			<arg value="${git.commit.message}" />
 		</exec>
 		<exec executable="git">
-			<aeg value="pull" />
+			<arg value="pull" />
 		</exec>
 		<exec executable="git">
 			<arg value="push" />
