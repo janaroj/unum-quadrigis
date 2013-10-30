@@ -38,6 +38,8 @@ public class PurchaseTab {
 
 	private PurchaseItemPanel purchasePane;
 	
+	private ConfirmPanel confPanel;
+	
 	private SalesSystemModel model;
 	
 	private JPanel cards;
@@ -69,7 +71,7 @@ public class PurchaseTab {
 		purchasePane = new PurchaseItemPanel(model);
 		panel.add(purchasePane, getConstraintsForPurchasePanel());
 		
-		JPanel confPanel = new ConfirmPanel(model);
+		confPanel = new ConfirmPanel(model);
 		
 		cards.add(panel,"PurchasePanel");
 		cards.add(confPanel,"ConfirmPanel");
@@ -167,6 +169,7 @@ public class PurchaseTab {
 
 	/** Event handler for the <code>submit purchase</code> event. */
 	protected void submitPurchaseButtonClicked() {
+	  reDraw(confPanel);
 	  cl.show(cards,"ConfirmPanel");
 	}
 
@@ -191,6 +194,11 @@ public class PurchaseTab {
 	 */
 
 	// switch UI to the state that allows to proceed with the purchase
+	
+	private void reDraw(JPanel panel){
+		panel.repaint();
+		panel.revalidate();
+	}
 	private void startNewSale() {
 		purchasePane.reset();
 		purchasePane.setEnabled(true);
