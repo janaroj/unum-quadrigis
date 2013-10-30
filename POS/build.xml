@@ -182,7 +182,7 @@
 		</exec>
 		<exec executable="git">
 			<arg value="push" />
-			<arg value="https://${git.userinfo}s@github.com/blabla/blablabla.git" />
+			<arg value="https://${git.userinfo}s@github.com/marekpagel/unum-quadrigis.git" />
 		</exec>
 
 	</target>
