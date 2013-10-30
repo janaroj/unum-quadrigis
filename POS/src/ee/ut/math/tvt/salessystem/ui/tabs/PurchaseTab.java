@@ -169,7 +169,7 @@ public class PurchaseTab {
 
 	/** Event handler for the <code>submit purchase</code> event. */
 	protected void submitPurchaseButtonClicked() {
-	  reDraw(confPanel);
+	  confPanel.reDo();
 	  cl.show(cards,"ConfirmPanel");
 	}
 
@@ -195,10 +195,6 @@ public class PurchaseTab {
 
 	// switch UI to the state that allows to proceed with the purchase
 	
-	private void reDraw(JPanel panel){
-		panel.repaint();
-		panel.revalidate();
-	}
 	private void startNewSale() {
 		purchasePane.reset();
 		purchasePane.setEnabled(true);
