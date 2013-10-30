@@ -36,7 +36,7 @@ public class ConfirmPanel extends JPanel {
 
 		// Create the panel
 		JPanel panel = new JPanel();
-		//setSize(300, 300);
+		// setSize(300, 300);
 		panel.setLayout(new GridLayout(3, 2));
 
 		panel.setBorder(BorderFactory.createTitledBorder("Payment"));
@@ -44,27 +44,28 @@ public class ConfirmPanel extends JPanel {
 		JTextField PaymentSum = new JTextField();
 		JLabel TotalSum = new JLabel("Total sum"); // + mingi v2rk, kust v6tab
 													// kogu summa.
-		JLabel ChangeAmount = new JLabel("Sum: 500  Change: "); // Siia tuleb see, mis
-														// makstakse tagasi.
+		JLabel ChangeAmount = new JLabel("Sum: 500  Change: "); // Siia tuleb
+																// see, mis
+		// makstakse tagasi.
 
 		JButton ConfirmButton = new JButton("Confirm");
 		JButton CancelButton = new JButton("Cancel");
 		JLabel EnterSum = new JLabel("Payment sum: ");
-		JLabel Empty = new JLabel("");
+		Empty = new JLabel("");
 
 		// Fill the change amout field when payment amount changes.
 		PaymentSum.getDocument().addDocumentListener(new DocumentListener() {
 
 			public void insertUpdate(DocumentEvent e) {
-				// Arvuta tagasimakse raha.
+				SetChangeText();
 			}
 
 			public void removeUpdate(DocumentEvent e) {
-				// Arvuta tagasimakse raha.
+				SetChangeText();
 			}
 
 			public void changedUpdate(DocumentEvent e) {
-				// Arvuta tagasimakse raha.
+				SetChangeText();
 			}
 
 		});
@@ -78,4 +79,25 @@ public class ConfirmPanel extends JPanel {
 
 		return panel;
 	}
+
+	public double addItems() {
+		int i = 0;
+		double sum = 0.0;
+		while (i < model.getCurrentPurchaseTableModel().getRowCount()) {
+			// System.out.println(i);
+			sum += (double) (model.getCurrentPurchaseTableModel().getValueAt(i,
+					2));
+			i++;
+			// System.out.println(sum);
+		}
+		System.out.println(sum);
+		return sum;
+
+	}
+
+	public void SetChangeText() {
+		addItems();
+		Empty.setText(String.valueOf(addItems()));
+	}
+
 }
