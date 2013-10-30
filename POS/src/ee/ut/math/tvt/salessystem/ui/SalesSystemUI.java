@@ -6,6 +6,7 @@ import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.tabs.HistoryTab;
 import ee.ut.math.tvt.salessystem.ui.tabs.PurchaseTab;
 import ee.ut.math.tvt.salessystem.ui.tabs.StockTab;
+import ee.ut.math.tvt.salessystem.ui.tabs.confirmTab;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
@@ -33,7 +34,8 @@ public class SalesSystemUI extends JFrame {
   // Instances of tab classes
   private PurchaseTab purchaseTab;
   private HistoryTab historyTab;
-  private StockTab stockTab;
+  private StockTab stockTab; 
+  private confirmTab confirmTab; //Ajutine
 
   /**
    * Constructs sales system GUI.
@@ -47,7 +49,8 @@ public class SalesSystemUI extends JFrame {
     historyTab = new HistoryTab(model);
     stockTab = new StockTab(model);
     purchaseTab = new PurchaseTab(domainController, model);
-
+    confirmTab = new confirmTab(domainController,model); //Ajutine
+ 
     setTitle("Sales system");
 
     // set L&F to the nice Windows style
@@ -81,6 +84,7 @@ public class SalesSystemUI extends JFrame {
     tabbedPane.add("Point-of-sale", purchaseTab.draw());
     tabbedPane.add("Warehouse", stockTab.draw());
     tabbedPane.add("History", historyTab.draw());
+    tabbedPane.add("Ajutine",confirmTab.draw()); //Ajutine
 
     getContentPane().add(tabbedPane);
   }

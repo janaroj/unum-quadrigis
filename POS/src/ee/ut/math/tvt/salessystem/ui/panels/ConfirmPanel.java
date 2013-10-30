@@ -29,7 +29,7 @@ public class ConfirmPanel extends JPanel {
 		add(drawDialogPane());
 		// Oadd(drawBasketPane(), getBasketPaneConstraints());
 
-		setEnabled(false);
+		//setEnabled(false);
 	}
 
 	private JComponent drawDialogPane() {
