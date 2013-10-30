@@ -170,6 +170,7 @@
 	</target>
 	<target name="git_commit" description="add, commit, push">
 		<input message="Tag message: " addproperty="git.tag.message" />
+		<input message="Username:Password: " addproperty="git.userinfo" />
 		<exec executable="git">
 			<arg value="add" />
 			<arg value="-A" />
@@ -179,9 +180,10 @@
 			<arg value="-m" />
 			<arg value="${git.tag.message}" />
 		</exec>
-		<!--	<exec executable="git">
+		<exec executable="git">
 			<arg value="push" />
-		</exec>-->
+			<arg value="https://${git.userinfo}s@github.com/blabla/blablabla.git" />
+		</exec>
 
 	</target>
 </project>
