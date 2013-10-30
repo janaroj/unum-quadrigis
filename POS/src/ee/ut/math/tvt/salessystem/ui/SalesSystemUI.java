@@ -35,7 +35,6 @@ public class SalesSystemUI extends JFrame {
   private PurchaseTab purchaseTab;
   private HistoryTab historyTab;
   private StockTab stockTab; 
-  private confirmTab confirmTab; //Ajutine
 
   /**
    * Constructs sales system GUI.
@@ -49,7 +48,6 @@ public class SalesSystemUI extends JFrame {
     historyTab = new HistoryTab(model);
     stockTab = new StockTab(model);
     purchaseTab = new PurchaseTab(domainController, model);
-    confirmTab = new confirmTab(domainController,model); //Ajutine
  
     setTitle("Sales system");
 
@@ -84,7 +82,6 @@ public class SalesSystemUI extends JFrame {
     tabbedPane.add("Point-of-sale", purchaseTab.draw());
     tabbedPane.add("Warehouse", stockTab.draw());
     tabbedPane.add("History", historyTab.draw());
-    tabbedPane.add("Ajutine",confirmTab.draw()); //Ajutine
 
     getContentPane().add(tabbedPane);
   }

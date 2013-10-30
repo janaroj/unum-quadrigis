@@ -3,8 +3,10 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+import ee.ut.math.tvt.salessystem.ui.panels.ConfirmPanel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -37,10 +39,16 @@ public class PurchaseTab {
 	private PurchaseItemPanel purchasePane;
 	
 	private SalesSystemModel model;
-
+	
+	private JPanel cards;
+	
+	private CardLayout cl;
+	
 	public PurchaseTab(SalesDomainController controller, SalesSystemModel model) {
 		this.domainController = controller;
 		this.model = model;
+		cards = new JPanel(new CardLayout());
+		cl = (CardLayout) cards.getLayout();
 	}
 
 	/**
@@ -60,8 +68,13 @@ public class PurchaseTab {
 		// Add the main purchase-panel
 		purchasePane = new PurchaseItemPanel(model);
 		panel.add(purchasePane, getConstraintsForPurchasePanel());
-
-		return panel;
+		
+		JPanel confPanel = new ConfirmPanel(model);
+		
+		cards.add(panel,"PurchasePanel");
+		cards.add(confPanel,"ConfirmPanel");
+		
+		return cards;
 	}
 
 	// The purchase menu. Contains buttons "New purchase", "Submit", "Cancel".
@@ -154,7 +167,7 @@ public class PurchaseTab {
 
 	/** Event handler for the <code>submit purchase</code> event. */
 	protected void submitPurchaseButtonClicked() {
-	  //Siia tuleks see 3. yl aken panna
+	  cl.show(cards,"ConfirmPanel");
 	}
 
 	protected void confirmedClicked(){
