@@ -182,7 +182,15 @@ public class PurchaseItemPanel extends JPanel {
     // to the barCode textfield.
     private StockItem getStockItemByBarcode() {
         try {
-            int code = barCodeField.getSelectedIndex()+1;
+        	String item = String.valueOf(barCodeField.getSelectedItem());
+        	int i=0;
+        	long code=0;
+        	while (i<model.getWarehouseTableModel().getRowCount()) {
+        		if (item.equals(model.getWarehouseTableModel().getValueAt(i, 1))) {
+        			code = (long) model.getWarehouseTableModel().getValueAt(i, 0);
+        			break;}
+        		 i++;
+        	}
             return model.getWarehouseTableModel().getItemById(code);
         } catch (NumberFormatException ex) {
             return null;
