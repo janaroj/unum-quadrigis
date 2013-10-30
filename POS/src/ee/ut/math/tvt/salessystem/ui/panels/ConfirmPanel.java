@@ -20,6 +20,8 @@ public class ConfirmPanel extends JPanel {
 	private JLabel TotalSum;
 	private JLabel ChangeAmount;
 	private SalesSystemModel model;
+	private JLabel EnterSum;
+	private JLabel Empty;
 
 	public ConfirmPanel(SalesSystemModel model) {
 		this.model = model;
@@ -27,26 +29,28 @@ public class ConfirmPanel extends JPanel {
 		setLayout(new GridLayout());
 
 		add(drawDialogPane());
-		// Oadd(drawBasketPane(), getBasketPaneConstraints());
-
-		//setEnabled(false);
+		setEnabled(false);
 	}
 
 	private JComponent drawDialogPane() {
 
 		// Create the panel
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(2, 2));
+		//setSize(300, 300);
+		panel.setLayout(new GridLayout(3, 2));
+
 		panel.setBorder(BorderFactory.createTitledBorder("Payment"));
 
 		JTextField PaymentSum = new JTextField();
 		JLabel TotalSum = new JLabel("Total sum"); // + mingi v2rk, kust v6tab
 													// kogu summa.
-		JLabel ChangeAmount = new JLabel("SummaSiin"); // Siia tuleb see, mis
+		JLabel ChangeAmount = new JLabel("Sum: 500  Change: "); // Siia tuleb see, mis
 														// makstakse tagasi.
 
 		JButton ConfirmButton = new JButton("Confirm");
 		JButton CancelButton = new JButton("Cancel");
+		JLabel EnterSum = new JLabel("Payment sum: ");
+		JLabel Empty = new JLabel("");
 
 		// Fill the change amout field when payment amount changes.
 		PaymentSum.getDocument().addDocumentListener(new DocumentListener() {
@@ -65,9 +69,10 @@ public class ConfirmPanel extends JPanel {
 
 		});
 
+		panel.add(EnterSum);
 		panel.add(PaymentSum);
 		panel.add(ChangeAmount);
-
+		panel.add(Empty);
 		panel.add(ConfirmButton);
 		panel.add(CancelButton);
 
