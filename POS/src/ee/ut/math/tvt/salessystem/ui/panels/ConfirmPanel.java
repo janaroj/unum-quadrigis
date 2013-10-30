@@ -50,12 +50,12 @@ public class ConfirmPanel extends JPanel {
 
 		// Create the panel
 		JPanel panel = new JPanel();
-		 setSize(100, 100);
+		setSize(100, 100);
 		panel.setLayout(new GridLayout(3, 2));
 
 		panel.setBorder(BorderFactory.createTitledBorder("Payment"));
 
-		JTextField PaymentSum = new JTextField();
+		PaymentSum = new JTextField();
 		JLabel TotalSum = new JLabel("Total sum"); // + mingi v2rk, kust v6tab
 													// kogu summa.
 		System.out.println(String.valueOf(addItems()));
@@ -95,8 +95,7 @@ public class ConfirmPanel extends JPanel {
 	}
 
 	public void SetChangeText() {
-		addItems();
-		Empty.setText(String.valueOf(addItems()));
+		Empty.setText(String.valueOf(Double.parseDouble(PaymentSum.getText())
+				- addItems()));
 	}
-
 }
