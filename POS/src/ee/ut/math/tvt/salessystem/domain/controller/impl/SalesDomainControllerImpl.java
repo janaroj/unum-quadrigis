@@ -1,15 +1,13 @@
 package ee.ut.math.tvt.salessystem.domain.controller.impl;
 
-import java.awt.GridLayout;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
@@ -18,9 +16,11 @@ import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
  * Implementation of the sales domain controller.
  */
 public class SalesDomainControllerImpl implements SalesDomainController {
-
+	
 	public void submitCurrentPurchase(List<SoldItem> goods)
 			throws VerificationFailedException {
+		
+		
 		// Let's assume we have checked and found out that the buyer is
 		// underaged and
 		// cannot buy chupa-chups
@@ -37,7 +37,6 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	}
 
 	public void submitPurchase() throws VerificationFailedException {
-		
 
 	}
 
@@ -62,9 +61,5 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		return dataset;
 	}
 
-	public List loadHistoryState() {
-		List dataset = new ArrayList();
-
-		return dataset;
-	}
+	
 }
