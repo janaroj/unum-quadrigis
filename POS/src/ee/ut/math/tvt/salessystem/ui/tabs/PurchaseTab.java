@@ -54,9 +54,9 @@ public class PurchaseTab {
 	
 	private JButton ConfirmButton,CancelButton;
 	
-	JLabel Empty;
+	private JLabel Empty;
 	
-	JTextField PaymentSum;
+	private JTextField PaymentSum;
 
 
 	public PurchaseTab(SalesDomainController controller, SalesSystemModel model) {
@@ -327,6 +327,7 @@ public class PurchaseTab {
 
 	private void startNewSale() {
 		purchasePane.reset();
+		cl.show(cards, "PurchasePanel");
 		purchasePane.setEnabled(true);
 		submitPurchase.setEnabled(false);
 		cancelPurchase.setEnabled(true);
@@ -336,7 +337,7 @@ public class PurchaseTab {
 	// switch UI to the state that allows to initiate new purchase
 	private void endSale() {
 		purchasePane.reset();
-
+		cl.show(cards, "PurchasePanel");
 		cancelPurchase.setEnabled(false);
 		submitPurchase.setEnabled(false);
 		newPurchase.setEnabled(true);
