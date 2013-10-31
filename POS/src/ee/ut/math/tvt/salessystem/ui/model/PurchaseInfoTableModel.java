@@ -10,10 +10,11 @@ import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger log = Logger.getLogger(PurchaseInfoTableModel.class);
-	
+	private static final Logger log = Logger
+			.getLogger(PurchaseInfoTableModel.class);
+
 	public PurchaseInfoTableModel() {
-		super(new String[] { "Id", "Name", "Price", "Quantity","Sum"});
+		super(new String[] { "Id", "Name", "Price", "Quantity", "Sum" });
 	}
 
 	@Override
@@ -52,18 +53,30 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 
 		return buffer.toString();
 	}
-	
-    /**
-     * Add new StockItem to table.
-     */
-    public void addItem(final SoldItem item) {
-        /**
-         * XXX In case such stockItem already exists increase the quantity of the
-         * existing stock.
-         */
-        
-        rows.add(item);
-        log.debug("Added " + item.getName() + " quantity of " + item.getQuantity());
-        fireTableDataChanged();
-    }
+
+	/**
+	 * Add new StockItem to table.
+	 */
+	public void addItem(final SoldItem item) {
+		/**
+		 * XXX In case such stockItem already exists increase the quantity of
+		 * the existing stock.
+		 */
+		if (item.getQuantity() > 0) {
+			rows.add(item);
+			log.debug("Added " + item.getName() + " quantity of "
+					+ item.getQuantity());
+			fireTableDataChanged();
+		}
+	}
+
+	public void changeItem(final SoldItem item, int index) {
+		if (item.getQuantity() == 0)
+			rows.remove(index);
+		else
+			rows.set(index, item);
+		log.debug("Changed " + item.getName() + " quantity of "
+				+ item.getQuantity());
+		fireTableDataChanged();
+	}
 }

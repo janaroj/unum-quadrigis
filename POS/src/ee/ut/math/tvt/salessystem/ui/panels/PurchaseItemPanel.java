@@ -151,7 +151,7 @@ public class PurchaseItemPanel extends JPanel {
 		panel.add(sumField);
 
 		// Create and add the button
-		addItemButton = new JButton("Add to cart");
+		addItemButton = new JButton("Update cart");
 		addItemButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PurchaseTab.submitPurchase.setEnabled(true);
@@ -215,8 +215,25 @@ public class PurchaseItemPanel extends JPanel {
 			} catch (NumberFormatException ex) {
 				quantity = 1;
 			}
-			model.getCurrentPurchaseTableModel().addItem(
-					new SoldItem(stockItem, quantity));
+			int i = 0;
+			boolean found = false;
+			while (i < model.getCurrentPurchaseTableModel().getRowCount()) {
+
+				if (model.getCurrentPurchaseTableModel().getValueAt(i, 0) == stockItem
+						.getId()) {
+					found = true;
+					break;
+				}
+				i++;
+
+			}
+
+			if (!found)
+				model.getCurrentPurchaseTableModel().addItem(
+						new SoldItem(stockItem, quantity));
+			else {
+				model.getCurrentPurchaseTableModel().changeItem(new SoldItem(stockItem,quantity), i);
+			}
 		}
 	}
 
