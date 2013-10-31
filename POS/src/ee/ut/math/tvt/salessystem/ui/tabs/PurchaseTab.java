@@ -1,24 +1,30 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
-import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
-import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
-import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
-import ee.ut.math.tvt.salessystem.ui.panels.ConfirmPanel;
-import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
-
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import org.apache.log4j.Logger;
+
+import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
+import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
 
 /**
  * Encapsulates everything that has to do with the purchase tab (the tab
@@ -38,13 +44,20 @@ public class PurchaseTab {
 
 	private PurchaseItemPanel purchasePane;
 
-	private static ConfirmPanel confPanel;
+	private  JPanel confPanel;
 
 	private SalesSystemModel model;
 
-	private static JPanel cards;
+	private JPanel cards;
 
-	private static CardLayout cl;
+	private CardLayout cl;
+	
+	private JButton ConfirmButton,CancelButton;
+	
+	JLabel Empty;
+	
+	JTextField PaymentSum;
+
 
 	public PurchaseTab(SalesDomainController controller, SalesSystemModel model) {
 		this.domainController = controller;
@@ -71,12 +84,11 @@ public class PurchaseTab {
 		purchasePane = new PurchaseItemPanel(model);
 		panel.add(purchasePane, getConstraintsForPurchasePanel());
 
-		confPanel = new ConfirmPanel(model);
 
 		cards.add(panel, "PurchasePanel");
-		cards.add(confPanel, "ConfirmPanel");
-
+		
 		return cards;
+
 	}
 
 	// The purchase menu. Contains buttons "New purchase", "Submit", "Cancel".
@@ -138,7 +150,122 @@ public class PurchaseTab {
 
 		return b;
 	}
+	
+	//Draws the additional screen where you can confirm the order
+	
+	private JComponent drawDialogPane() {
+		// Create the panel
+		JPanel Display = new JPanel(new GridLayout(3, 1));
+		JLabel Pointless = new JLabel("");
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(3, 2));
 
+		panel.setBorder(BorderFactory.createTitledBorder("Payment"));
+
+		PaymentSum = new JTextField();
+		JLabel ChangeAmount = new JLabel("Sum: " + sumItems() + "  Change: ");
+		ConfirmButton = new JButton("Confirm");
+		ConfirmButton.setEnabled(false);
+		CancelButton = new JButton("Cancel");
+		JLabel EnterSum = new JLabel("Payment sum: ");
+		Empty = new JLabel("");
+
+		// Fill the change amount field when payment amount changes.
+		PaymentSum.getDocument().addDocumentListener(new DocumentListener() {
+
+			public void insertUpdate(DocumentEvent e) {
+				SetChangeText();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				SetChangeText();
+			}
+
+			public void changedUpdate(DocumentEvent e) {
+				SetChangeText();
+			}
+
+		});
+		// Returns to Purchase Tab after click.
+		CancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl.show(cards, "PurchasePanel");
+
+			}
+		});
+		// Returns to Purchase Tab after click.
+		ConfirmButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				confirmedClicked();
+
+			}
+		});
+
+		panel.add(EnterSum);
+		panel.add(Display);
+		Display.add(Pointless);
+		Display.add(PaymentSum);
+		panel.add(ChangeAmount);
+		panel.add(Empty);
+		panel.add(ConfirmButton);
+		panel.add(CancelButton);
+
+		
+		return panel;
+	}
+
+
+	public void SetChangeText() {
+		Empty.setText(PaymentSum.getText());
+		if (Empty.getText() == null) {
+			Empty.setText("0");
+		}
+		try {
+			if (Empty.getText() == null) {
+				Empty.setText("0");
+			}
+			if (Double.parseDouble(Empty.getText()) - sumItems() < 0) {
+				{
+					Empty.setText(String.valueOf(Double.parseDouble(PaymentSum
+							.getText()) - sumItems()));
+					Empty.setForeground(Color.RED);
+					ConfirmButton.setEnabled(false);
+				}
+			} else {
+				Empty.setText(String.valueOf(Double.parseDouble(PaymentSum
+						.getText()) - sumItems()));
+				Empty.setForeground(Color.BLACK);
+				ConfirmButton.setEnabled(true);
+
+			}
+		}
+
+		catch (NumberFormatException e) {
+			if (!PaymentSum.getText().equals("")) {
+				JOptionPane.showMessageDialog(null,
+						"Error, please enter numbers!", "Error",
+						JOptionPane.ERROR_MESSAGE);
+				Empty.setText("-");
+
+			}
+
+		}
+
+	}
+	
+	
+	public double sumItems() {
+		int i = 0;
+		double sum = 0.0;
+		while (i < model.getCurrentPurchaseTableModel().getRowCount()) {
+			sum += ((double) (model.getCurrentPurchaseTableModel().getValueAt(
+					i, 2)) * (int) model.getCurrentPurchaseTableModel()
+					.getValueAt(i, 3));
+			i++;
+		}
+		return sum;
+
+	}
 	/*
 	 * === Event handlers for the menu buttons (get executed when the buttons
 	 * are clicked)
@@ -168,14 +295,10 @@ public class PurchaseTab {
 	}
 
 	/** Event handler for the <code>submit purchase</code> event. */
-	static void submitPurchaseButtonClicked() {
-		confPanel.reDo();
+	public void submitPurchaseButtonClicked() {
+		confPanel = (JPanel) drawDialogPane();
+		cards.add(confPanel, "ConfirmPanel");
 		cl.show(cards, "ConfirmPanel");
-	}
-
-	public static void submitConfirmCancelButtonClicked() {
-		confPanel.reDo();
-		cl.show(cards, "PurchasePanel");
 	}
 
 	protected void confirmedClicked() {
@@ -199,6 +322,8 @@ public class PurchaseTab {
 	 */
 
 	// switch UI to the state that allows to proceed with the purchase
+
+
 
 	private void startNewSale() {
 		purchasePane.reset();
