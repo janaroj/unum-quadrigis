@@ -226,14 +226,14 @@ public class PurchaseTab {
 			}
 			if (Double.parseDouble(Empty.getText()) - sumItems() < 0) {
 				{
-					Empty.setText(String.valueOf(((double) ((int) (Math.round((Double
-							.parseDouble(PaymentSum.getText()) - sumItems()) * 100)))) / 100));
+					Empty.setText(String.valueOf(((double) ((int) (Math
+							.round((Double.parseDouble(PaymentSum.getText()) - sumItems()) * 100)))) / 100));
 					Empty.setForeground(Color.RED);
 					ConfirmButton.setEnabled(false);
 				}
 			} else {
-				Empty.setText(String.valueOf(((double) ((int) (Math.round((Double
-						.parseDouble(PaymentSum.getText()) - sumItems()) * 100)))) / 100));
+				Empty.setText(String.valueOf(((double) ((int) (Math
+						.round((Double.parseDouble(PaymentSum.getText()) - sumItems()) * 100)))) / 100));
 				Empty.setForeground(Color.BLACK);
 				ConfirmButton.setEnabled(true);
 
@@ -257,12 +257,13 @@ public class PurchaseTab {
 		int i = 0;
 		double sum = 0.0;
 		while (i < model.getCurrentPurchaseTableModel().getRowCount()) {
-			sum += (double) (model.getCurrentPurchaseTableModel().getValueAt(
-					i, 2)) * (int) model.getCurrentPurchaseTableModel()
-					.getValueAt(i, 3);
+			sum += (double) (model.getCurrentPurchaseTableModel().getValueAt(i,
+					2))
+					* (int) model.getCurrentPurchaseTableModel().getValueAt(i,
+							3);
 			i++;
 		}
-		return ((double)((int)Math.round((sum*100))))/100;
+		return ((double) ((int) Math.round((sum * 100)))) / 100;
 
 	}
 
@@ -304,7 +305,8 @@ public class PurchaseTab {
 	public void addToHistory() {
 		Date date = new Date();
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-		int i = 0, sum = 0;
+		int i = 0;
+		double sum = 0;
 		String dateTime = dateFormat.format(date);
 		String[] dateArray = dateTime.split((" - "));
 		String dateString = dateArray[0], timeString = dateArray[1];

@@ -10,8 +10,7 @@ import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 public class HistoryTableModel extends SalesSystemTableModel<HistoryItem> {
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger log = Logger.getLogger(StockTableModel.class);
-
+	private static final Logger log = Logger.getLogger(HistoryTableModel.class);
 	public HistoryTableModel() {
 		super(new String[] {"Date", "Time", "Total Price"});
 	}
@@ -51,8 +50,12 @@ public class HistoryTableModel extends SalesSystemTableModel<HistoryItem> {
 	  public void addItem(final HistoryItem item) {
 	        
 	        rows.add(item);
-	        log.debug("Added " + item.getDate() + " " + item.getTime() + " Sum " + item.getSum());
+
 	        fireTableDataChanged();
 	    }
+	  
+	  public HistoryItem getItem(int index) {
+		  return rows.get(index);
+	  }
 
 }
