@@ -299,6 +299,7 @@ public class PurchaseItemPanel extends JPanel {
 					i++;
 				}
 				int amount = Integer.parseInt(quantity);
+				if (amount<0) throw new NumberFormatException();
 				if (amount > stockItem.getQuantity()) {
 					quantityField.setBackground(Color.RED);
 					JOptionPane.showMessageDialog(null,
