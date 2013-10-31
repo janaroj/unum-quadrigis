@@ -58,7 +58,7 @@ public class SoldItem implements Cloneable, DisplayableItem {
     }
 
     public double getSum() {
-        return price * ((double) quantity);
+        return ((double)((int)(Math.round((price * ((double) quantity))*100))))/100;
     }
 
     public StockItem getStockItem() {

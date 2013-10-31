@@ -151,7 +151,7 @@ public class PurchaseItemPanel extends JPanel {
 		panel.add(sumField);
 
 		// Create and add the button
-		addItemButton = new JButton("Update cart");
+		addItemButton = new JButton("Add to cart");
 		addItemButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PurchaseTab.submitPurchase.setEnabled(true);
@@ -232,7 +232,8 @@ public class PurchaseItemPanel extends JPanel {
 				model.getCurrentPurchaseTableModel().addItem(
 						new SoldItem(stockItem, quantity));
 			else {
-				model.getCurrentPurchaseTableModel().changeItem(new SoldItem(stockItem,quantity), i);
+				model.getCurrentPurchaseTableModel().changeItem(
+						new SoldItem(stockItem, quantity), i);
 			}
 		}
 	}
@@ -283,7 +284,24 @@ public class PurchaseItemPanel extends JPanel {
 		if (stockItem != null) {
 			String quantity = quantityField.getText();
 			// Checks if quantity is a number, if not sets it to 0
+			int i = 0;
 			try {
+				while (i < model.getCurrentPurchaseTableModel().getRowCount()) {
+					System.out.println(i);
+					System.out.println(model.getCurrentPurchaseTableModel()
+							.getValueAt(i, 1));
+					System.out.println(barCodeField.getSelectedItem());
+					if (model.getCurrentPurchaseTableModel().getValueAt(i, 1) == barCodeField
+							.getSelectedItem()) {
+						addItemButton.setText("Update cart");
+						System.out.println("update");
+						break;
+					} else {
+						System.out.println("add");
+						addItemButton.setText("Add to cart");
+					}
+					i++;
+				}
 				int amount = Integer.parseInt(quantity);
 				if (amount > stockItem.getQuantity()) {
 					quantityField.setBackground(Color.RED);
@@ -300,8 +318,8 @@ public class PurchaseItemPanel extends JPanel {
 				addItemButton.setEnabled(false);
 			}
 
-			sumField.setText(String.valueOf(stockItem.getPrice()
-					* Integer.parseInt(quantity)));
+			sumField.setText(String.valueOf(((float)((int)(Math.round((stockItem.getPrice()
+					* Integer.parseInt(quantity)*100)))))/100));
 		} else {
 			reset();
 		}

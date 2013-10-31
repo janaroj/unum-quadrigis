@@ -49,20 +49,19 @@ public class PurchaseTab {
 
 	private PurchaseItemPanel purchasePane;
 
-	private  JPanel confPanel;
+	private JPanel confPanel;
 
 	private SalesSystemModel model;
 
 	private JPanel cards;
 
 	private CardLayout cl;
-	
-	private JButton ConfirmButton,CancelButton;
-	
-	private JLabel Empty;
-	
-	private JTextField PaymentSum;
 
+	private JButton ConfirmButton, CancelButton;
+
+	private JLabel Empty;
+
+	private JTextField PaymentSum;
 
 	public PurchaseTab(SalesDomainController controller, SalesSystemModel model) {
 		this.domainController = controller;
@@ -89,9 +88,8 @@ public class PurchaseTab {
 		purchasePane = new PurchaseItemPanel(model);
 		panel.add(purchasePane, getConstraintsForPurchasePanel());
 
-
 		cards.add(panel, "PurchasePanel");
-		
+
 		return cards;
 
 	}
@@ -155,9 +153,9 @@ public class PurchaseTab {
 
 		return b;
 	}
-	
-	//Draws the additional screen where you can confirm the order
-	
+
+	// Draws the additional screen where you can confirm the order
+
 	private JComponent drawDialogPane() {
 		// Create the panel
 		JPanel Display = new JPanel(new GridLayout(3, 1));
@@ -214,10 +212,8 @@ public class PurchaseTab {
 		panel.add(ConfirmButton);
 		panel.add(CancelButton);
 
-		
 		return panel;
 	}
-
 
 	public void SetChangeText() {
 		Empty.setText(PaymentSum.getText());
@@ -230,14 +226,14 @@ public class PurchaseTab {
 			}
 			if (Double.parseDouble(Empty.getText()) - sumItems() < 0) {
 				{
-					Empty.setText(String.valueOf(Double.parseDouble(PaymentSum
-							.getText()) - sumItems()));
+					Empty.setText(String.valueOf(((double) ((int) (Math.round((Double
+							.parseDouble(PaymentSum.getText()) - sumItems()) * 100)))) / 100));
 					Empty.setForeground(Color.RED);
 					ConfirmButton.setEnabled(false);
 				}
 			} else {
-				Empty.setText(String.valueOf(Double.parseDouble(PaymentSum
-						.getText()) - sumItems()));
+				Empty.setText(String.valueOf(((double) ((int) (Math.round((Double
+						.parseDouble(PaymentSum.getText()) - sumItems()) * 100)))) / 100));
 				Empty.setForeground(Color.BLACK);
 				ConfirmButton.setEnabled(true);
 
@@ -256,20 +252,20 @@ public class PurchaseTab {
 		}
 
 	}
-	
-	
+
 	public double sumItems() {
 		int i = 0;
 		double sum = 0.0;
 		while (i < model.getCurrentPurchaseTableModel().getRowCount()) {
-			sum += ((double) (model.getCurrentPurchaseTableModel().getValueAt(
+			sum += (double) (model.getCurrentPurchaseTableModel().getValueAt(
 					i, 2)) * (int) model.getCurrentPurchaseTableModel()
-					.getValueAt(i, 3));
+					.getValueAt(i, 3);
 			i++;
 		}
-		return sum;
+		return ((double)((int)Math.round((sum*100))))/100;
 
 	}
+
 	/*
 	 * === Event handlers for the menu buttons (get executed when the buttons
 	 * are clicked)
@@ -304,40 +300,42 @@ public class PurchaseTab {
 		cards.add(confPanel, "ConfirmPanel");
 		cl.show(cards, "ConfirmPanel");
 	}
-	
+
 	public void addToHistory() {
 		Date date = new Date();
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-		int i=0,sum=0;
+		int i = 0, sum = 0;
 		String dateTime = dateFormat.format(date);
 		String[] dateArray = dateTime.split((" - "));
-		String dateString = dateArray[0],timeString = dateArray[1];
-		while (i<model
-				.getCurrentPurchaseTableModel().getTableRows().size()) {
-			model
-			.getCurrentPurchaseTableModel().getTableRows().get(i).getPrice();
-			model
-			.getCurrentPurchaseTableModel().getTableRows().get(i).getName();
-			sum += model
-					.getCurrentPurchaseTableModel().getTableRows().get(i).getSum();
+		String dateString = dateArray[0], timeString = dateArray[1];
+		while (i < model.getCurrentPurchaseTableModel().getTableRows().size()) {
+			model.getCurrentPurchaseTableModel().getTableRows().get(i)
+					.getPrice();
+			model.getCurrentPurchaseTableModel().getTableRows().get(i)
+					.getName();
+			sum += model.getCurrentPurchaseTableModel().getTableRows().get(i)
+					.getSum();
 			i++;
 		}
 		model.getHistoryTableModel().addItem(
-				new HistoryItem(dateString,timeString,sum,model.getCurrentPurchaseTableModel().getTableRows()));
+				new HistoryItem(dateString, timeString, sum, model
+						.getCurrentPurchaseTableModel().getTableRows()));
 	}
 
-	public void removeFromStock(){
-		int i=0;
-		while (i<model
-				.getCurrentPurchaseTableModel().getTableRows().size()) {
-			int qnt= model.getCurrentPurchaseTableModel().getTableRows().get(i).getQuantity();
-			long id = model.getCurrentPurchaseTableModel().getTableRows().get(i).getId();
-			StockItem stockItem = model.getWarehouseTableModel().getItemById(id);
-			stockItem.setQuantity(stockItem.getQuantity()-qnt);
+	public void removeFromStock() {
+		int i = 0;
+		while (i < model.getCurrentPurchaseTableModel().getTableRows().size()) {
+			int qnt = model.getCurrentPurchaseTableModel().getTableRows()
+					.get(i).getQuantity();
+			long id = model.getCurrentPurchaseTableModel().getTableRows()
+					.get(i).getId();
+			StockItem stockItem = model.getWarehouseTableModel()
+					.getItemById(id);
+			stockItem.setQuantity(stockItem.getQuantity() - qnt);
 			i++;
 		}
 	}
-	
+
 	protected void confirmedClicked() {
 		log.info("Sale complete");
 		try {
@@ -346,7 +344,7 @@ public class PurchaseTab {
 					+ model.getCurrentPurchaseTableModel());
 			domainController.submitCurrentPurchase(model
 					.getCurrentPurchaseTableModel().getTableRows());
-			
+
 			removeFromStock();
 			addToHistory();
 			endSale();
@@ -362,8 +360,6 @@ public class PurchaseTab {
 	 */
 
 	// switch UI to the state that allows to proceed with the purchase
-
-
 
 	private void startNewSale() {
 		purchasePane.reset();
