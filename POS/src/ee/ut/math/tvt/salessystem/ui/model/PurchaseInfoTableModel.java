@@ -3,6 +3,7 @@ package ee.ut.math.tvt.salessystem.ui.model;
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.SalesSystemUI;
 
 /**
@@ -33,6 +34,8 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 		}
 		throw new IllegalArgumentException("Column index out of range");
 	}
+	
+
 
 	@Override
 	public String toString() {
@@ -62,9 +65,16 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
          * XXX In case such stockItem already exists increase the quantity of the
          * existing stock.
          */
-        
+        if (item.getQuantity()>0) {
         rows.add(item);
         log.debug("Added " + item.getName() + " quantity of " + item.getQuantity());
-        fireTableDataChanged();
+        fireTableDataChanged(); }
+    }
+    
+    public void changeItem(final SoldItem item,int index) {
+    	if (item.getQuantity()==0) rows.remove(index);
+    	else rows.set(index, item);
+    	log.debug("Changed " + item.getName() + " quantity of " + item.getQuantity());
+    	fireTableDataChanged();
     }
 }
