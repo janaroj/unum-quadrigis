@@ -131,7 +131,7 @@ public class PurchaseItemPanel extends JPanel {
 		// == Add components to the panel
 
 		// - bar code
-		panel.add(new JLabel("Bar code:"));
+		panel.add(new JLabel("Item Name:"));
 		panel.add(barCodeField);
 
 		// - amount
@@ -268,6 +268,7 @@ public class PurchaseItemPanel extends JPanel {
 	public void addItems() {
 		int i = 0;
 		while (i < model.getWarehouseTableModel().getRowCount()) {
+			if ((Integer) (model.getWarehouseTableModel().getValueAt(i, 3))>0) 
 			barCodeField.addItem(model.getWarehouseTableModel()
 					.getValueAt(i, 1));
 			i++;

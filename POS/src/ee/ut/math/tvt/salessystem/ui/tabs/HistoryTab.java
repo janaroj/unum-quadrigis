@@ -4,31 +4,39 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.JTableHeader;
 
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 /**
- * Encapsulates everything that has to do with the purchase tab (the tab
+ * Encapsulates everything that has to do with the tab (the tab
  * labelled "History" in the menu).
  */
 public class HistoryTab {
     
 	private SalesSystemModel model;
-
+	
     public HistoryTab(SalesSystemModel model) {
     	this.model=model;
     } 
     
     public Component draw() {
-        JPanel panel = new JPanel();
-        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    	JPanel pane = new JPanel(new GridLayout(2,1));
+    	pane.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
+        JPanel panel = new JPanel();
+        
         GridBagLayout gb = new GridBagLayout();
         GridBagConstraints gc = new GridBagConstraints();
         panel.setLayout(gb);
@@ -43,10 +51,33 @@ public class HistoryTab {
         gc.weighty = 1.0;
         gc.fill = GridBagConstraints.BOTH;
         panel.add(drawHistoryMainPane(), gc);
-        return panel;
+        
+        pane.add(panel);
+        pane.add(drawPurchasedItems());
+        return pane;
     }
     
 
+    private Component drawPurchasedItems(){
+    	JPanel panel = new JPanel();
+    	panel.setBorder(BorderFactory.createTitledBorder("History"));
+    	
+    	JTable table = new JTable(model.getSecondHistoryTableModel());
+    	
+    	GridBagConstraints gc = new GridBagConstraints();
+        GridBagLayout gb = new GridBagLayout();
+        gc.fill = GridBagConstraints.BOTH;
+        gc.weightx = 1.0;
+        gc.weighty = 1.0;
+
+        JTableHeader header = table.getTableHeader();
+        header.setReorderingAllowed(false);
+        JScrollPane scrollPane = new JScrollPane(table);
+        
+        panel.setLayout(gb);
+        panel.add(scrollPane, gc);
+    	return panel;
+    }
     
     private Component drawHistoryMainPane(){
     	JPanel panel = new JPanel();
@@ -54,7 +85,7 @@ public class HistoryTab {
         JTable table = new JTable(model.getHistoryTableModel());
         JTableHeader header = table.getTableHeader();
         header.setReorderingAllowed(false);
-
+        table.getSelectionModel().addListSelectionListener(new ListListener(table,model));
         JScrollPane scrollPane = new JScrollPane(table);
 
         GridBagConstraints gc = new GridBagConstraints();
@@ -69,4 +100,25 @@ public class HistoryTab {
         panel.setBorder(BorderFactory.createTitledBorder("History"));
         return panel;
     }
+}
+
+class ListListener implements ListSelectionListener {
+	JTable table;
+	SalesSystemModel model;
+	
+	ListListener(JTable table,SalesSystemModel model){
+		this.table=table;
+		this.model = model;
+	
+	}
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		if (table.getSelectedRow()>=0) {
+		List<SoldItem> historyItem = model.getHistoryTableModel().getItem(table.getSelectedRow()).getSoldItems();
+		if (model.getSecondHistoryTableModel().getRowCount()!=0) model.getSecondHistoryTableModel().removeItems();
+		
+		for (SoldItem si:historyItem) {model.getSecondHistoryTableModel().addItem(si);}
+		
+		}
+	}
 }
