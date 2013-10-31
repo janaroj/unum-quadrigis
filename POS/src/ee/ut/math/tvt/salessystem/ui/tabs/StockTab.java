@@ -2,7 +2,6 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -42,8 +41,8 @@ public class StockTab {
 	private JTextField descriptionField;
 	private JButton addItemButton;
 	private JButton cancelButton;
-	
-	//Listener
+
+	// Listener
 	private DocListener docListener;
 
 	public StockTab(SalesSystemModel model) {
@@ -102,19 +101,19 @@ public class StockTab {
 		descriptionField = new JTextField();
 		idField.getDocument().addDocumentListener(docListener);
 		idField.getDocument().addDocumentListener(new DocumentListener() {
-			
+
 			public void removeUpdate(DocumentEvent e) {
-				setStockItemValues	();			
+				setStockItemValues();
 			}
-			
+
 			public void insertUpdate(DocumentEvent e) {
 				setStockItemValues();
-				
+
 			}
-			
+
 			public void changedUpdate(DocumentEvent e) {
 				setStockItemValues();
-				
+
 			}
 		});
 		priceField.getDocument().addDocumentListener(docListener);
@@ -218,7 +217,6 @@ public class StockTab {
 		setStockAddPaneEnabled(false);
 	}
 
-
 	// enabling/resetting fields
 	protected void setStockAddPaneEnabled(boolean b) {
 		idField.setEnabled(b);
@@ -245,34 +243,41 @@ public class StockTab {
 		priceField.setEditable(b);
 		descriptionField.setEditable(b);
 	}
+
 	// checks if input is valid
 	private void checkInput() {
 		try {
-			int qnt =Integer.parseInt(quantityField.getText());
-			if (qnt<=0) throw new NumberFormatException();
+			int qnt = Integer.parseInt(quantityField.getText());
+			if (qnt <= 0)
+				throw new NumberFormatException();
 			quantityField.setForeground(Color.black);
-		}
-		catch (NumberFormatException e) {
+
+		} catch (NumberFormatException e) {
 			quantityField.setForeground(Color.red);
+
 		}
 		try {
 			int id = Integer.parseInt(idField.getText());
-			if (id<=0) throw new NumberFormatException();
+			if (id <= 0)
+				throw new NumberFormatException();
 			idField.setForeground(Color.black);
-		}
-		catch (NumberFormatException e) {
+
+		} catch (NumberFormatException e) {
 			idField.setForeground(Color.red);
+
 		}
 		try {
 			double price = Double.parseDouble(priceField.getText());
-			if (price<0) throw new NumberFormatException();
+			if (price < 0)
+				throw new NumberFormatException();
 			priceField.setForeground(Color.black);
-		}
-		catch (NumberFormatException e) {
+
+		} catch (NumberFormatException e) {
 			priceField.setForeground(Color.red);
+
 		}
 	}
-	
+
 	// sets the correct values if an item with the same id already exists
 	private void setStockItemValues() {
 		try {
@@ -301,24 +306,24 @@ public class StockTab {
 			resetNonUniqueFields();
 		}
 	}
-	
-	private class DocListener implements DocumentListener{
+
+	private class DocListener implements DocumentListener {
 
 		public void insertUpdate(DocumentEvent e) {
 			checkInput();
-			
+
 		}
 
 		public void removeUpdate(DocumentEvent e) {
 			checkInput();
-			
+
 		}
 
 		public void changedUpdate(DocumentEvent e) {
 			checkInput();
-			
+
 		}
-		
+
 	}
 
 	// constraints
@@ -369,5 +374,3 @@ public class StockTab {
 		return gc;
 	}
 }
-
-
