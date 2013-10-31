@@ -323,7 +323,7 @@ public class PurchaseTab {
 			i++;
 		}
 		model.getHistoryTableModel().addItem(
-				new HistoryItem(dateString,timeString,sum));
+				new HistoryItem(dateString,timeString,sum,model.getCurrentPurchaseTableModel().getTableRows()));
 	}
 
 	public void removeFromStock(){
