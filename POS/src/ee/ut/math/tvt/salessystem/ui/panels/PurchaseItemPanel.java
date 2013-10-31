@@ -261,7 +261,8 @@ public class PurchaseItemPanel extends JPanel {
         if (stockItem != null) {
     	String quantity = quantityField.getText();
         //Checks if quantity is a number, if not sets it to 0
-        try{int amount = Integer.parseInt(quantity);
+			try {
+				int amount = Integer.parseInt(quantity);
         if (amount>stockItem.getQuantity()) {quantityField.setBackground(Color.RED);JOptionPane.showMessageDialog(null, "Error, not enough products in warehouse!","Error",JOptionPane.ERROR_MESSAGE);addItemButton.setEnabled(false);}
         else {quantityField.setBackground(Color.WHITE);addItemButton.setEnabled(true);}
         } catch (NumberFormatException e) {quantity="0";addItemButton.setEnabled(false);}

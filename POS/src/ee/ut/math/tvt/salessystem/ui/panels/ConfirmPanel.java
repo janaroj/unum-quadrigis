@@ -1,18 +1,22 @@
 package ee.ut.math.tvt.salessystem.ui.panels;
 
-import java.awt.GridBagLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+import ee.ut.math.tvt.salessystem.ui.tabs.PurchaseTab;
 
 public class ConfirmPanel extends JPanel {
 
@@ -22,52 +26,36 @@ public class ConfirmPanel extends JPanel {
 	private SalesSystemModel model;
 	private JLabel EnterSum;
 	private JLabel Empty;
+	private JButton ConfirmButton;
+	private JPanel Display;
 
 	public ConfirmPanel(SalesSystemModel model) {
 		this.model = model;
 
 		setLayout(new GridLayout());
 
-		add(drawDialogPane());
+		reDo();
 		setEnabled(false);
 	}
 
-	public double addItems() {
-		int i = 0;
-		double sum = 0.0;
-		while (i < model.getCurrentPurchaseTableModel().getRowCount()) {
-			// System.out.println(i);
-			sum += (double) (model.getCurrentPurchaseTableModel().getValueAt(i,
-					2));
-			i++;
-			// System.out.println(sum);
-		}
-		// System.out.println(sum);
-		return sum;
-	}
-
 	private JComponent drawDialogPane() {
-
 		// Create the panel
+		Display = new JPanel(new GridLayout(3, 1));
+		JLabel Pointless = new JLabel("");
 		JPanel panel = new JPanel();
-		setSize(100, 100);
 		panel.setLayout(new GridLayout(3, 2));
 
 		panel.setBorder(BorderFactory.createTitledBorder("Payment"));
 
 		PaymentSum = new JTextField();
-		JLabel TotalSum = new JLabel("Total sum"); // + mingi v2rk, kust v6tab
-													// kogu summa.
-		System.out.println(String.valueOf(addItems()));
-		JLabel ChangeAmount = new JLabel("Sum: " + (String.valueOf(addItems()))
-				+ ", change: ");
-
-		JButton ConfirmButton = new JButton("Confirm");
+		JLabel TotalSum = new JLabel("Total sum");
+		JLabel ChangeAmount = new JLabel("Sum: " + addItems() + "  Change: ");
+		ConfirmButton = new JButton("Confirm");
 		JButton CancelButton = new JButton("Cancel");
 		JLabel EnterSum = new JLabel("Payment sum: ");
 		Empty = new JLabel("");
 
-		// Fill the change amout field when payment amount changes.
+		// Fill the change amount field when payment amount changes.
 		PaymentSum.getDocument().addDocumentListener(new DocumentListener() {
 
 			public void insertUpdate(DocumentEvent e) {
@@ -83,9 +71,27 @@ public class ConfirmPanel extends JPanel {
 			}
 
 		});
+		// Returns to Purchase Tab after click.
+		CancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getActionCommand() == "Cancel") {
+					PurchaseTab.submitConfirmCancelButtonClicked();
+
+				}
+			}
+		});
+		// Returns to Purchase Tab after click.
+		ConfirmButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PurchaseTab.submitConfirmCancelButtonClicked();
+
+			}
+		});
 
 		panel.add(EnterSum);
-		panel.add(PaymentSum);
+		panel.add(Display);
+		Display.add(Pointless);
+		Display.add(PaymentSum);
 		panel.add(ChangeAmount);
 		panel.add(Empty);
 		panel.add(ConfirmButton);
@@ -94,8 +100,61 @@ public class ConfirmPanel extends JPanel {
 		return panel;
 	}
 
-	public void SetChangeText() {
-		Empty.setText(String.valueOf(Double.parseDouble(PaymentSum.getText())
-				- addItems()));
+	public double addItems() {
+		int i = 0;
+		double sum = 0.0;
+		while (i < model.getCurrentPurchaseTableModel().getRowCount()) {
+			sum += ((double) (model.getCurrentPurchaseTableModel().getValueAt(
+					i, 2)) * (int) model.getCurrentPurchaseTableModel()
+					.getValueAt(i, 3));
+			i++;
+		}
+		return sum;
+
 	}
+
+	public void SetChangeText() {
+		Empty.setText(PaymentSum.getText());
+		if (Empty.getText() == null) {
+			Empty.setText("0");
+		}
+		try {
+			if (Empty.getText() == null) {
+				Empty.setText("0");
+			}
+			if (Double.parseDouble(Empty.getText()) - addItems() < 0) {
+				{
+					Empty.setText(String.valueOf(Double.parseDouble(PaymentSum
+							.getText()) - addItems()));
+					Empty.setForeground(Color.RED);
+					ConfirmButton.setEnabled(false);
+				}
+			} else {
+				Empty.setText(String.valueOf(Double.parseDouble(PaymentSum
+						.getText()) - addItems()));
+				Empty.setForeground(Color.BLACK);
+				ConfirmButton.setEnabled(true);
+
+			}
+		}
+
+		catch (NumberFormatException e) {
+			if (!PaymentSum.getText().equals("")) {
+				JOptionPane.showMessageDialog(null,
+						"Error, please enter numbers!", "Error",
+						JOptionPane.ERROR_MESSAGE);
+				Empty.setText("-");
+
+			}
+
+		}
+
+	}
+
+	public void reDo() {
+		removeAll();
+		add(drawDialogPane());
+		revalidate();
+	}
+
 }

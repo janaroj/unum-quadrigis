@@ -37,15 +37,15 @@ public class PurchaseTab {
 	private JButton cancelPurchase;
 
 	private PurchaseItemPanel purchasePane;
-	
-	private ConfirmPanel confPanel;
-	
+
+	private static ConfirmPanel confPanel;
+
 	private SalesSystemModel model;
-	
-	private JPanel cards;
-	
-	private CardLayout cl;
-	
+
+	private static JPanel cards;
+
+	private static CardLayout cl;
+
 	public PurchaseTab(SalesDomainController controller, SalesSystemModel model) {
 		this.domainController = controller;
 		this.model = model;
@@ -70,12 +70,12 @@ public class PurchaseTab {
 		// Add the main purchase-panel
 		purchasePane = new PurchaseItemPanel(model);
 		panel.add(purchasePane, getConstraintsForPurchasePanel());
-		
+
 		confPanel = new ConfirmPanel(model);
-		
-		cards.add(panel,"PurchasePanel");
-		cards.add(confPanel,"ConfirmPanel");
-		
+
+		cards.add(panel, "PurchasePanel");
+		cards.add(confPanel, "ConfirmPanel");
+
 		return cards;
 	}
 
@@ -168,12 +168,17 @@ public class PurchaseTab {
 	}
 
 	/** Event handler for the <code>submit purchase</code> event. */
-	protected void submitPurchaseButtonClicked() {
-	  reDraw(confPanel);
-	  cl.show(cards,"ConfirmPanel");
+	static void submitPurchaseButtonClicked() {
+		confPanel.reDo();
+		cl.show(cards, "ConfirmPanel");
 	}
 
-	protected void confirmedClicked(){
+	public static void submitConfirmCancelButtonClicked() {
+		confPanel.reDo();
+		cl.show(cards, "PurchasePanel");
+	}
+
+	protected void confirmedClicked() {
 		log.info("Sale complete");
 		try {
 			domainController.submitPurchase();
@@ -187,18 +192,14 @@ public class PurchaseTab {
 			log.error(e1.getMessage());
 		}
 	}
-	
+
 	/*
 	 * === Helper methods that bring the whole purchase-tab to a certain state
 	 * when called.
 	 */
 
 	// switch UI to the state that allows to proceed with the purchase
-	
-	private void reDraw(JPanel panel){
-		panel.repaint();
-		panel.revalidate();
-	}
+
 	private void startNewSale() {
 		purchasePane.reset();
 		purchasePane.setEnabled(true);
