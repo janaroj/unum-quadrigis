@@ -236,6 +236,7 @@ public class PurchaseItemPanel extends JPanel {
 						new SoldItem(stockItem, quantity), i);
 			}
 		}
+		addItemButton.setText("Update cart");
 	}
 
 	/**
@@ -263,15 +264,16 @@ public class PurchaseItemPanel extends JPanel {
 		nameField.setText("");
 		priceField.setText("");
 		sumField.setText("");
+		addItemButton.setText("Add to cart");
 	}
 
 	// adds items to barCodeField
 	public void addItems() {
 		int i = 0;
 		while (i < model.getWarehouseTableModel().getRowCount()) {
-			if ((Integer) (model.getWarehouseTableModel().getValueAt(i, 3))>0) 
-			barCodeField.addItem(model.getWarehouseTableModel()
-					.getValueAt(i, 1));
+			if ((Integer) (model.getWarehouseTableModel().getValueAt(i, 3)) > 0)
+				barCodeField.addItem(model.getWarehouseTableModel().getValueAt(
+						i, 1));
 			i++;
 		}
 
@@ -318,8 +320,8 @@ public class PurchaseItemPanel extends JPanel {
 				addItemButton.setEnabled(false);
 			}
 
-			sumField.setText(String.valueOf(((float)((int)(Math.round((stockItem.getPrice()
-					* Integer.parseInt(quantity)*100)))))/100));
+			sumField.setText(String.valueOf(((float) ((int) (Math
+					.round((stockItem.getPrice() * Integer.parseInt(quantity) * 100))))) / 100));
 		} else {
 			reset();
 		}
