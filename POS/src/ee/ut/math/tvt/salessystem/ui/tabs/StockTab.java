@@ -26,12 +26,12 @@ public class StockTab {
 	private static final Logger Log = Logger.getLogger(StockTab.class);
 	private JButton addItem;
 	
+	//stockAddPane fields
 	private JTextField idField;
 	private JTextField nameField;
 	private JTextField priceField;
 	private JTextField quantityField;
 	private JTextField descriptionField;
-
 	private JButton addItemButton;
 
 
@@ -117,20 +117,22 @@ public class StockTab {
 		panel.setBorder(BorderFactory.createTitledBorder("Product"));
 
 		// initializing the textfields
-		// id field default value should be generated automatically
-		// based on the nr of items in the warehouse
 		idField = new JTextField("");
 		nameField = new JTextField();
 		priceField = new JTextField();
 		quantityField = new JTextField();
 		descriptionField = new JTextField();
+		addItemButton = new JButton("Add to warehouse");
+		addItemButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addItemToWarehouseButtonClicked();
+
+			}
+		});
 		
-		
-		idField.setEnabled(false);
-		nameField.setEnabled(false);
-		priceField.setEnabled(false);
-		quantityField.setEnabled(false);
-		descriptionField.setEnabled(false);
+		setStockAddPaneEnabled(false);
 		
 		// add fields with labels
 		// id
@@ -154,15 +156,7 @@ public class StockTab {
 		panel.add(descriptionField);
 
 		// create and add the add button
-		addItemButton = new JButton("Add to warehouse");
-		addItemButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				addItemToWarehouseButtonClicked();
-
-			}
-		});
+		
 		addItemButton.setEnabled(false);
 		panel.add(addItemButton);
 
@@ -208,24 +202,30 @@ public class StockTab {
 		
 		model.getWarehouseTableModel().addItem(stockItem);
 		
-		/*
-		StockItem stockItem = new StockItem();
-		stockItem.setId(id);
-		stockItem.setName(name);
-		stockItem.setPrice(price);
-		stockItem.setQuantity(quantity);
-		stockItem.setDescription(description);
-		*/
+		setStockAddPaneEnabled(false);
+		
+		
 	}
 	protected void addButtonClicked(){
 		Log.info("Add button clicked");
 		
-		idField.setEnabled(true);
-		nameField.setEnabled(true);
-		priceField.setEnabled(true);
-		quantityField.setEnabled(true);
-		descriptionField.setEnabled(true);
-		addItemButton.setEnabled(true);
+		setStockAddPaneEnabled(true);
+		
+		
 	}
+	
+	protected void setStockAddPaneEnabled(boolean b){
+		idField.setEnabled(b);
+		nameField.setEnabled(b);
+		priceField.setEnabled(b);
+		quantityField.setEnabled(b);
+		descriptionField.setEnabled(b);
+		addItemButton.setEnabled(b);
+		
+		addItem.setEnabled(!b);
+	}
+	
+	
+	
 
 }
