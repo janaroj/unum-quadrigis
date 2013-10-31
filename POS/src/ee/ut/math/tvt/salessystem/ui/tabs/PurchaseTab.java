@@ -161,16 +161,14 @@ public class PurchaseTab {
 		JPanel Display = new JPanel(new GridLayout(3, 1));
 		JLabel Pointless = new JLabel("");
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(3, 2));
+		panel.setLayout(new GridLayout(4, 2));
 
 		panel.setBorder(BorderFactory.createTitledBorder("Payment"));
 
 		PaymentSum = new JTextField();
-		JLabel ChangeAmount = new JLabel("Sum: " + sumItems() + "  Change: ");
 		ConfirmButton = new JButton("Confirm");
 		ConfirmButton.setEnabled(false);
 		CancelButton = new JButton("Cancel");
-		JLabel EnterSum = new JLabel("Payment sum: ");
 		Empty = new JLabel("");
 
 		// Fill the change amount field when payment amount changes.
@@ -203,12 +201,15 @@ public class PurchaseTab {
 			}
 		});
 
-		panel.add(EnterSum);
+		panel.add(new JLabel("Payment sum: "));
 		panel.add(Display);
 		Display.add(Pointless);
 		Display.add(PaymentSum);
-		panel.add(ChangeAmount);
+		panel.add(new JLabel("Sum: "));
+		panel.add(new JLabel(((Double) sumItems()).toString()));
+		panel.add(new JLabel("Change"));
 		panel.add(Empty);
+		
 		panel.add(ConfirmButton);
 		panel.add(CancelButton);
 
