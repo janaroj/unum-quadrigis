@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,20 +16,27 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.JTableHeader;
+
+import org.apache.log4j.Logger;
+
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 public class StockTab {
+	private static final Logger Log = Logger.getLogger(StockTab.class);
 	private JButton addItem;
 	
 	private JTextField idField;
 	private JTextField nameField;
 	private JTextField priceField;
 	private JTextField quantityField;
+	private JTextField descriptionField;
 
 	private JButton addItemButton;
 
 
 	private SalesSystemModel model;
+	
 
 	public StockTab(SalesSystemModel model) {
 		this.model = model;
@@ -81,23 +89,31 @@ public class StockTab {
 		GridBagConstraints gc = new GridBagConstraints();
 
 		// set constraints (layout) for addItem button
-		gc.anchor = GridBagConstraints.NORTHWEST;
+		gc.anchor = GridBagConstraints.CENTER;
 		gc.weightx = 0;
 		gc.gridwidth = GridBagConstraints.RELATIVE;
 		gc.weightx = 1.0;
-
+		
 		// creates AddItem button and adds to panel
 		addItem = new JButton("Add");
+		addItem.addActionListener(new ActionListener() {
+		
+			public void actionPerformed(ActionEvent e) {
+				addButtonClicked();
+				
+			}
+		});
 		panel.add(addItem, gc);
 
-		panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		return panel;
 	}
 
 	private Component drawStockAddPane() {
 		// creating the panel
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(5, 2));
+		GridLayout addPanel = new GridLayout(6,2);
+		panel.setLayout(addPanel);
+		
 		panel.setBorder(BorderFactory.createTitledBorder("Product"));
 
 		// initializing the textfields
@@ -107,7 +123,15 @@ public class StockTab {
 		nameField = new JTextField();
 		priceField = new JTextField();
 		quantityField = new JTextField();
-
+		descriptionField = new JTextField();
+		
+		
+		idField.setEnabled(false);
+		nameField.setEnabled(false);
+		priceField.setEnabled(false);
+		quantityField.setEnabled(false);
+		descriptionField.setEnabled(false);
+		
 		// add fields with labels
 		// id
 		panel.add(new JLabel("Id"));
@@ -124,6 +148,10 @@ public class StockTab {
 		// quantity
 		panel.add(new JLabel("Quantity"));
 		panel.add(quantityField);
+		
+		// description
+		panel.add(new JLabel("Description"));
+		panel.add(descriptionField);
 
 		// create and add the add button
 		addItemButton = new JButton("Add to warehouse");
@@ -131,10 +159,11 @@ public class StockTab {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addItemEventHandler();
+				addItemToWarehouseButtonClicked();
 
 			}
 		});
+		addItemButton.setEnabled(false);
 		panel.add(addItemButton);
 
 		return panel;
@@ -164,9 +193,39 @@ public class StockTab {
 		return panel;
 	}
 
-	public void addItemEventHandler() {
-		// add item to the list of warehouse items
-
+	public void addItemToWarehouseButtonClicked() {
+		Log.info("Add to warehouse button clicked");
+		
+		//parsing exceptions?
+		Long id = Long.parseLong(idField.getText());
+		String name = nameField.getText();
+		Double price = Double.parseDouble(priceField.getText());
+		Integer quantity = Integer.parseInt(quantityField.getText());
+		String description = descriptionField.getText();
+		
+		StockItem stockItem = new StockItem(id, name,description, price, quantity);
+	
+		
+		model.getWarehouseTableModel().addItem(stockItem);
+		
+		/*
+		StockItem stockItem = new StockItem();
+		stockItem.setId(id);
+		stockItem.setName(name);
+		stockItem.setPrice(price);
+		stockItem.setQuantity(quantity);
+		stockItem.setDescription(description);
+		*/
+	}
+	protected void addButtonClicked(){
+		Log.info("Add button clicked");
+		
+		idField.setEnabled(true);
+		nameField.setEnabled(true);
+		priceField.setEnabled(true);
+		quantityField.setEnabled(true);
+		descriptionField.setEnabled(true);
+		addItemButton.setEnabled(true);
 	}
 
 }
