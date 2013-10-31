@@ -32,7 +32,7 @@ public class PurchaseTab {
 
 	private JButton newPurchase;
 
-	private JButton submitPurchase;
+	static public JButton submitPurchase;
 
 	private JButton cancelPurchase;
 
@@ -203,7 +203,7 @@ public class PurchaseTab {
 	private void startNewSale() {
 		purchasePane.reset();
 		purchasePane.setEnabled(true);
-		submitPurchase.setEnabled(true);
+		submitPurchase.setEnabled(false);
 		cancelPurchase.setEnabled(true);
 		newPurchase.setEnabled(false);
 	}
