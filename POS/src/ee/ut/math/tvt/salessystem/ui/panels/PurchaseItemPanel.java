@@ -287,7 +287,7 @@ public class PurchaseItemPanel extends JPanel {
 				if (amount > stockItem.getQuantity()) {
 					quantityField.setBackground(Color.RED);
 					JOptionPane.showMessageDialog(null,
-							"Error, not enough products in warehouse!",
+							"Not enough products in stock",
 							"Error", JOptionPane.ERROR_MESSAGE);
 					addItemButton.setEnabled(false);
 				} else {
