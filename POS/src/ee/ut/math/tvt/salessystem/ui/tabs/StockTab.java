@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.NoSuchElementException;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,7 +20,9 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.JTableHeader;
+
 import org.apache.log4j.Logger;
+
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
@@ -156,7 +159,7 @@ public class StockTab {
 
 		JScrollPane scrollPane = new JScrollPane(table);
 		GridBagLayout gb = new GridBagLayout();
-		
+
 		panel.setLayout(gb);
 		panel.add(scrollPane, getScrollPaneConstraints());
 
@@ -174,6 +177,10 @@ public class StockTab {
 			Integer quantity = Integer.parseInt(quantityField.getText());
 			String description = descriptionField.getText();
 
+			if (id < 0 || price < 0 || quantity < 0) {
+				throw new NumberFormatException();
+			}
+
 			StockItem stockItem = new StockItem(id, name, description, price,
 					quantity);
 
@@ -186,8 +193,8 @@ public class StockTab {
 		} catch (NumberFormatException ex) {
 			Log.debug("Add to warehouse number format ex");
 			JOptionPane.showMessageDialog(null,
-					"Empty fields or otherwise incorrect input",
-					"Error", JOptionPane.ERROR_MESSAGE);
+					"Empty fields or otherwise incorrect input", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 
 	}
@@ -298,6 +305,7 @@ public class StockTab {
 		gc.weightx = 1.0;
 		return gc;
 	}
+
 	private GridBagConstraints getScrollPaneConstraints() {
 		GridBagConstraints gc = new GridBagConstraints();
 		gc.fill = GridBagConstraints.BOTH;
