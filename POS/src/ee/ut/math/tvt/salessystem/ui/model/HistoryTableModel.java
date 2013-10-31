@@ -50,7 +50,7 @@ public class HistoryTableModel extends SalesSystemTableModel<HistoryItem> {
 	  public void addItem(final HistoryItem item) {
 	        
 	        rows.add(item);
-	        log.debug("Added " + item.getDate() + " " + item.getTime() + " Sum " + item.getSum());
+
 	        fireTableDataChanged();
 	    }
 	  

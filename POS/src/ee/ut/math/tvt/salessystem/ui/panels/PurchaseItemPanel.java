@@ -289,17 +289,11 @@ public class PurchaseItemPanel extends JPanel {
 			int i = 0;
 			try {
 				while (i < model.getCurrentPurchaseTableModel().getRowCount()) {
-					System.out.println(i);
-					System.out.println(model.getCurrentPurchaseTableModel()
-							.getValueAt(i, 1));
-					System.out.println(barCodeField.getSelectedItem());
 					if (model.getCurrentPurchaseTableModel().getValueAt(i, 1) == barCodeField
 							.getSelectedItem()) {
 						addItemButton.setText("Update cart");
-						System.out.println("update");
 						break;
 					} else {
-						System.out.println("add");
 						addItemButton.setText("Add to cart");
 					}
 					i++;
