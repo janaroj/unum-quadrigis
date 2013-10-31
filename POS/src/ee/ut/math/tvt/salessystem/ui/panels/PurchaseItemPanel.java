@@ -279,7 +279,6 @@ public class PurchaseItemPanel extends JPanel {
 
 	}
 
-	// V2ga sarnane addItemEventHandlerile, ilmselt saaks kokku panna
 	public void setSum() {
 		// add chosen item to the shopping cart.
 		StockItem stockItem = getStockItemByBarcode();

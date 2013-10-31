@@ -2,6 +2,7 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -41,9 +42,13 @@ public class StockTab {
 	private JTextField descriptionField;
 	private JButton addItemButton;
 	private JButton cancelButton;
+	
+	//Listener
+	private DocListener docListener;
 
 	public StockTab(SalesSystemModel model) {
 		this.model = model;
+		docListener = new DocListener();
 	}
 
 	// warehouse stock tab - consists of a menu, an add pane and a table
@@ -91,26 +96,29 @@ public class StockTab {
 
 		// initializing fields
 		idField = new JTextField();
-		idField.getDocument().addDocumentListener(new DocumentListener() {
-
-			public void insertUpdate(DocumentEvent e) {
-				setStockItemValues();
-			}
-
-			public void removeUpdate(DocumentEvent e) {
-				setStockItemValues();
-			}
-
-			public void changedUpdate(DocumentEvent e) {
-				setStockItemValues();
-			}
-
-		});
-		// initializing fields
 		nameField = new JTextField();
 		priceField = new JTextField();
 		quantityField = new JTextField();
 		descriptionField = new JTextField();
+		idField.getDocument().addDocumentListener(docListener);
+		idField.getDocument().addDocumentListener(new DocumentListener() {
+			
+			public void removeUpdate(DocumentEvent e) {
+				setStockItemValues	();			
+			}
+			
+			public void insertUpdate(DocumentEvent e) {
+				setStockItemValues();
+				
+			}
+			
+			public void changedUpdate(DocumentEvent e) {
+				setStockItemValues();
+				
+			}
+		});
+		priceField.getDocument().addDocumentListener(docListener);
+		quantityField.getDocument().addDocumentListener(docListener);
 		addItemButton = new JButton("Add to warehouse");
 		addItemButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -210,6 +218,61 @@ public class StockTab {
 		setStockAddPaneEnabled(false);
 	}
 
+
+	// enabling/resetting fields
+	protected void setStockAddPaneEnabled(boolean b) {
+		idField.setEnabled(b);
+		nameField.setEnabled(b);
+		priceField.setEnabled(b);
+		quantityField.setEnabled(b);
+		descriptionField.setEnabled(b);
+		addItemButton.setEnabled(b);
+		cancelButton.setEnabled(b);
+
+		addItem.setEnabled(!b);
+	}
+
+	protected void resetNonUniqueFields() {
+		nameField.setText("");
+		priceField.setText("");
+		descriptionField.setText("");
+		quantityField.setText("");
+
+	}
+
+	protected void setStockAddPaneEditable(boolean b) {
+		nameField.setEditable(b);
+		priceField.setEditable(b);
+		descriptionField.setEditable(b);
+	}
+	// checks if input is valid
+	private void checkInput() {
+		try {
+			int qnt =Integer.parseInt(quantityField.getText());
+			if (qnt<=0) throw new NumberFormatException();
+			quantityField.setForeground(Color.black);
+		}
+		catch (NumberFormatException e) {
+			quantityField.setForeground(Color.red);
+		}
+		try {
+			int id = Integer.parseInt(idField.getText());
+			if (id<=0) throw new NumberFormatException();
+			idField.setForeground(Color.black);
+		}
+		catch (NumberFormatException e) {
+			idField.setForeground(Color.red);
+		}
+		try {
+			double price = Double.parseDouble(priceField.getText());
+			if (price<0) throw new NumberFormatException();
+			priceField.setForeground(Color.black);
+		}
+		catch (NumberFormatException e) {
+			priceField.setForeground(Color.red);
+		}
+	}
+	
 	// sets the correct values if an item with the same id already exists
 	private void setStockItemValues() {
 		try {
@@ -238,32 +301,24 @@ public class StockTab {
 			resetNonUniqueFields();
 		}
 	}
+	
+	private class DocListener implements DocumentListener{
 
-	// enabling/resetting fields
-	protected void setStockAddPaneEnabled(boolean b) {
-		idField.setEnabled(b);
-		nameField.setEnabled(b);
-		priceField.setEnabled(b);
-		quantityField.setEnabled(b);
-		descriptionField.setEnabled(b);
-		addItemButton.setEnabled(b);
-		cancelButton.setEnabled(b);
+		public void insertUpdate(DocumentEvent e) {
+			checkInput();
+			
+		}
 
-		addItem.setEnabled(!b);
-	}
+		public void removeUpdate(DocumentEvent e) {
+			checkInput();
+			
+		}
 
-	protected void resetNonUniqueFields() {
-		nameField.setText("");
-		priceField.setText("");
-		descriptionField.setText("");
-		quantityField.setText("");
-
-	}
-
-	protected void setStockAddPaneEditable(boolean b) {
-		nameField.setEditable(b);
-		priceField.setEditable(b);
-		descriptionField.setEditable(b);
+		public void changedUpdate(DocumentEvent e) {
+			checkInput();
+			
+		}
+		
 	}
 
 	// constraints
@@ -314,3 +369,5 @@ public class StockTab {
 		return gc;
 	}
 }
+
+
