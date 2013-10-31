@@ -8,6 +8,9 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -22,6 +25,7 @@ import javax.swing.event.DocumentListener;
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
@@ -193,7 +197,6 @@ public class PurchaseTab {
 
 			}
 		});
-		// Returns to Purchase Tab after click.
 		ConfirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				confirmedClicked();
@@ -309,6 +312,26 @@ public class PurchaseTab {
 					+ model.getCurrentPurchaseTableModel());
 			domainController.submitCurrentPurchase(model
 					.getCurrentPurchaseTableModel().getTableRows());
+			
+			Date date = new Date();
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+			int i=0,sum=0;
+			String dateTime = dateFormat.format(date);
+			String[] dateArray = dateTime.split((" - "));
+			String dateString = dateArray[0],timeString = dateArray[1];
+			while (i<model
+					.getCurrentPurchaseTableModel().getTableRows().size()) {
+				model
+				.getCurrentPurchaseTableModel().getTableRows().get(i).getPrice();
+				model
+				.getCurrentPurchaseTableModel().getTableRows().get(i).getName();
+				sum += model
+						.getCurrentPurchaseTableModel().getTableRows().get(i).getSum();
+				i++;
+			}
+			model.getHistoryTableModel().addItem(
+					new HistoryItem(dateString,timeString,sum));
+			
 			endSale();
 			model.getCurrentPurchaseTableModel().clear();
 		} catch (VerificationFailedException e1) {

@@ -1,15 +1,15 @@
 	package ee.ut.math.tvt.salessystem.ui.model;
 
-import java.util.NoSuchElementException;
-
 import org.apache.log4j.Logger;
 
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
 /**
  * Stock item table model.
  */
-public class HistoryTableModel extends SalesSystemTableModel<StockItem> {
+public class HistoryTableModel extends SalesSystemTableModel<HistoryItem> {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger log = Logger.getLogger(StockTableModel.class);
@@ -18,21 +18,43 @@ public class HistoryTableModel extends SalesSystemTableModel<StockItem> {
 		super(new String[] {"Date", "Time", "Total Price"});
 	}
 
+
+
 	@Override
-	protected Object getColumnValue(StockItem item, int columnIndex) {
+	protected Object getColumnValue(HistoryItem item, int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return item.getId();
+			return item.getDate();
 		case 1:
-			return item.getName();
+			return item.getTime();
 		case 2:
-			return item.getPrice();
-		case 3:
-			return item.getQuantity();
+			return item.getSum();
 		}
 		throw new IllegalArgumentException("Column index out of range");
 	}
+	
+	public String toString() {
+		final StringBuffer buffer = new StringBuffer();
 
+		for (int i = 0; i < headers.length; i++)
+			buffer.append(headers[i] + "\t");
+		buffer.append("\n");
 
+		for (final HistoryItem HistoryItem : rows) {
+			buffer.append(HistoryItem.getDate() + "\t");
+			buffer.append(HistoryItem.getTime() + "\t");
+			buffer.append(HistoryItem.getSum() + "\t");
+			buffer.append("\n");
+		}
+
+		return buffer.toString();
+	}
+
+	  public void addItem(final HistoryItem item) {
+	        
+	        rows.add(item);
+	        log.debug("Added " + item.getDate() + " " + item.getTime() + " Sum " + item.getSum());
+	        fireTableDataChanged();
+	    }
 
 }
