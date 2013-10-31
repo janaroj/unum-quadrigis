@@ -33,7 +33,7 @@ public class SalesSystemUI extends JFrame {
   // Instances of tab classes
   private PurchaseTab purchaseTab;
   private HistoryTab historyTab;
-  private StockTab stockTab;
+  private StockTab stockTab; 
 
   /**
    * Constructs sales system GUI.
@@ -47,7 +47,7 @@ public class SalesSystemUI extends JFrame {
     historyTab = new HistoryTab(model);
     stockTab = new StockTab(model);
     purchaseTab = new PurchaseTab(domainController, model);
-
+ 
     setTitle("Sales system");
 
     // set L&F to the nice Windows style

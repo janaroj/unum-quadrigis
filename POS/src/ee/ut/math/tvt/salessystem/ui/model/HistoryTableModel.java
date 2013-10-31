@@ -1,4 +1,4 @@
-package ee.ut.math.tvt.salessystem.ui.model;
+	package ee.ut.math.tvt.salessystem.ui.model;
 
 import java.util.NoSuchElementException;
 

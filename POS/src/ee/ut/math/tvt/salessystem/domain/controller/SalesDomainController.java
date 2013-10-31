@@ -43,6 +43,7 @@ public interface SalesDomainController {
 	 * @throws VerificationFailedException
 	 */
 
+	
 	public void submitPurchase() throws VerificationFailedException;
 
 	public void submitCurrentPurchase(List<SoldItem> goods)
