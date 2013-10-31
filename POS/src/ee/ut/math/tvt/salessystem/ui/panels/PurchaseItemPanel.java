@@ -212,6 +212,7 @@ public class PurchaseItemPanel extends JPanel {
 			int quantity;
 			try {
 				quantity = Integer.parseInt(quantityField.getText());
+				if (quantity<0) throw new NumberFormatException();
 			} catch (NumberFormatException ex) {
 				quantity = 1;
 			}
