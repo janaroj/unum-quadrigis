@@ -317,8 +317,8 @@ public class PurchaseItemPanel extends JPanel {
 				addItemButton.setEnabled(false);
 			}
 
-			sumField.setText(String.valueOf(stockItem.getPrice()
-					* Integer.parseInt(quantity)));
+			sumField.setText(String.valueOf(((float)((int)(Math.round((stockItem.getPrice()
+					* Integer.parseInt(quantity)*100)))))/100));
 		} else {
 			reset();
 		}
