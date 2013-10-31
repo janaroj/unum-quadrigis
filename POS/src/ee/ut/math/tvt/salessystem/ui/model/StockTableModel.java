@@ -33,6 +33,7 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		throw new IllegalArgumentException("Column index out of range");
 	}
 
+	
 	/**
 	 * Add new stock item to table. If there already is a stock item with
 	 * same id, then existing item's quantity will be increased.

@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
@@ -303,7 +304,40 @@ public class PurchaseTab {
 		cards.add(confPanel, "ConfirmPanel");
 		cl.show(cards, "ConfirmPanel");
 	}
+	
+	public void addToHistory() {
+		Date date = new Date();
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+		int i=0,sum=0;
+		String dateTime = dateFormat.format(date);
+		String[] dateArray = dateTime.split((" - "));
+		String dateString = dateArray[0],timeString = dateArray[1];
+		while (i<model
+				.getCurrentPurchaseTableModel().getTableRows().size()) {
+			model
+			.getCurrentPurchaseTableModel().getTableRows().get(i).getPrice();
+			model
+			.getCurrentPurchaseTableModel().getTableRows().get(i).getName();
+			sum += model
+					.getCurrentPurchaseTableModel().getTableRows().get(i).getSum();
+			i++;
+		}
+		model.getHistoryTableModel().addItem(
+				new HistoryItem(dateString,timeString,sum));
+	}
 
+	public void removeFromStock(){
+		int i=0;
+		while (i<model
+				.getCurrentPurchaseTableModel().getTableRows().size()) {
+			int qnt= model.getCurrentPurchaseTableModel().getTableRows().get(i).getQuantity();
+			long id = model.getCurrentPurchaseTableModel().getTableRows().get(i).getId();
+			StockItem stockItem = model.getWarehouseTableModel().getItemById(id);
+			stockItem.setQuantity(stockItem.getQuantity()-qnt);
+			i++;
+		}
+	}
+	
 	protected void confirmedClicked() {
 		log.info("Sale complete");
 		try {
@@ -313,25 +347,8 @@ public class PurchaseTab {
 			domainController.submitCurrentPurchase(model
 					.getCurrentPurchaseTableModel().getTableRows());
 			
-			Date date = new Date();
-			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-			int i=0,sum=0;
-			String dateTime = dateFormat.format(date);
-			String[] dateArray = dateTime.split((" - "));
-			String dateString = dateArray[0],timeString = dateArray[1];
-			while (i<model
-					.getCurrentPurchaseTableModel().getTableRows().size()) {
-				model
-				.getCurrentPurchaseTableModel().getTableRows().get(i).getPrice();
-				model
-				.getCurrentPurchaseTableModel().getTableRows().get(i).getName();
-				sum += model
-						.getCurrentPurchaseTableModel().getTableRows().get(i).getSum();
-				i++;
-			}
-			model.getHistoryTableModel().addItem(
-					new HistoryItem(dateString,timeString,sum));
-			
+			removeFromStock();
+			addToHistory();
 			endSale();
 			model.getCurrentPurchaseTableModel().clear();
 		} catch (VerificationFailedException e1) {

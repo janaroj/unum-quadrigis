@@ -3,8 +3,6 @@
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
-import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
-import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
 /**
  * Stock item table model.
