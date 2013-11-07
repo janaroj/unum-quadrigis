@@ -11,22 +11,38 @@
 	<property name="dist.dir" value="${build.dir}/jar" />
 	<property name="doc.dir" value="${build.dir}/doc" />
 	<property name="test.reports.dir" value="${build.dir}/reports/" />
-
+	<property name="lib.dir" value="${basedir}/lib"/>
+	
+	<!-- database variables -->
+	<property name="data.dir"	value="${basedir}/data"/>
+	<property name="db.file"	value="${data.dir}/POSdb"/>
+	<property name="db.alias"	value="POS"/>
+	<property name="db.url" 	value="jdbc:hsqldb:hsql://localhost/POS"/>
+	<property name="lib.hibernate.dir"   value="${lib.dir}/hibernate"/>
+	
 	<!-- Definitions of classpath variants used for different tasks -->
 
 	<path id="compile.classpath">
-		<fileset dir="lib">
-			<include name="*.jar" />
-		</fileset>
+		  <fileset dir="${lib.dir}">
+		            <include name="*.jar"/>
+		        </fileset>
+		<fileset dir="${lib.hibernate.dir}">
+		             <include name="*.jar"/>
+		        </fileset>
 	</path>
 
-	<path id="test.classpath">
-		<pathelement location="${build.classes.dir}" />
-		<!-- configuration -->
-		<pathelement location="${prop.dir}" />
-		<fileset dir="lib">
-			<include name="*.jar" />
-		</fileset>
+	
+	<path id="run.classpath">
+	        <pathelement location="${build.classes.dir}"/>
+	        <!-- configuration -->
+	        <pathelement location="${conf.dir}"/>
+	        <fileset dir="${lib.dir}">
+	            <include name="*.jar"/>
+	        </fileset>
+
+	        <fileset dir="${lib.hibernate.dir}">
+	             <include name="*.jar"/>
+	        </fileset>
 	</path>
 
 	<!-- Definitions of runnable ant targets.
@@ -34,7 +50,7 @@
 
 	<!-- Run the application -->
 	<target name="run" depends="build" description="Run the application">
-		<java classname="ee.ut.math.tvt.unum_quadrigis.Intro" classpathref="test.classpath" fork="yes">
+		<java classname="ee.ut.math.tvt.unum_quadrigis.Intro" classpathref="run.classpath" fork="yes">
 			<jvmarg value="-Xdebug" />
 			<jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=1044" />
 		</java>
@@ -164,7 +180,7 @@
 	</target>
 
 	<target name="runc" depends="build" description="Run the application (console)">
-		<java classname="ee.ut.math.tvt.unum_quadrigis.Intro" classpathref="test.classpath" fork="yes">
+		<java classname="ee.ut.math.tvt.unum_quadrigis.Intro" classpathref="run.classpath" fork="yes">
 			<arg value="console" />
 		</java>
 	</target>
@@ -204,5 +220,25 @@
 			<arg value="--tags" />
 		</exec>
 	</target>
+	<target name="dbmanager" description="Start the HSQLDB manager">
+	        <java
+	            classname="org.hsqldb.util.DatabaseManagerSwing"
+	            classpathref="run.classpath"
+	            fork="yes"
+	        >
+	            <arg line="--user sa --url ${db.url}" />
+	        </java>
+	    </target>
+
+	    <target name="startdb" description="Start the HSQLDB with the default params">
+	        <java
+	            classname="org.hsqldb.Server"
+	            classpathref="run.classpath"
+	            fork="yes"
+	        >
+	            <arg line="-database.0 '${db.file}' -dbname.0 '${db.alias}'" /> 
+	        </java>
+	</target>
+
 </project>
 
