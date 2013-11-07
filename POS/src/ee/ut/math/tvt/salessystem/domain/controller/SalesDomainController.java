@@ -43,6 +43,7 @@ public interface SalesDomainController {
 	 * @throws VerificationFailedException
 	 */
 
+	public void endSession();
 	
 	public void submitPurchase() throws VerificationFailedException;
 
