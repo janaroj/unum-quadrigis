@@ -14,10 +14,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "STOCKITEM")
 public class StockItem implements Cloneable, DisplayableItem {
-
-	@SequenceGenerator(name="seq", initialValue=1, allocationSize=1)
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
+	@Column(name = "id")
     private Long id;
 	@Column(name = "name")
     private String name;

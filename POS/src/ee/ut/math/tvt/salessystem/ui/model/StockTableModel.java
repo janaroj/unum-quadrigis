@@ -4,18 +4,21 @@ import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
 
+import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
+import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 
 /**
  * Stock item table model.
  */
 public class StockTableModel extends SalesSystemTableModel<StockItem> {
 	private static final long serialVersionUID = 1L;
-
+	private final SalesDomainController domainController;
 	private static final Logger log = Logger.getLogger(StockTableModel.class);
 
-	public StockTableModel() {
+	public StockTableModel(SalesDomainController dc) {
 		super(new String[] {"Id", "Name", "Price", "Quantity"});
+		domainController = dc;
 	}
 
 	@Override
@@ -43,13 +46,23 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		try {
 			StockItem item = getItemById(stockItem.getId());
 			item.setQuantity(item.getQuantity() + stockItem.getQuantity());
+			domainController.modifyStockItem(item);
 			log.debug("Found existing item " + stockItem.getName()
 					+ " increased quantity by " + stockItem.getQuantity());
 		}
 		catch (NoSuchElementException e) {
+			try {
 			rows.add(stockItem);
 			log.debug("Added " + stockItem.getName()
 					+ " quantity of " + stockItem.getQuantity());
+			
+				domainController.addNewStockItem(stockItem);
+			} catch (VerificationFailedException e1) {
+				log.debug("Error adding to database");
+			}
+		}
+		catch (VerificationFailedException ve) {
+			log.debug("Error adding to database");
 		}
 		fireTableDataChanged();
 	}

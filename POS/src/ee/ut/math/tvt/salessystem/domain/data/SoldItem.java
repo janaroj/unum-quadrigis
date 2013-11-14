@@ -18,8 +18,8 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
 	private Long id;
 
-	@OneToOne
-	@JoinColumn(name = "stockitem_id", nullable = true)
+	//@OneToOne
+	//@JoinColumn(name = "stockitem_id", nullable = true)
 	private StockItem stockItem;
 
 	@Column(name = "name")

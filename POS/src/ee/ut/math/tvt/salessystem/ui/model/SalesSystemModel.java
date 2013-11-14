@@ -32,7 +32,7 @@ public class SalesSystemModel {
      */
     public SalesSystemModel(SalesDomainController domainController) {
         this.domainController = domainController;
-        warehouseTableModel = new StockTableModel();
+        warehouseTableModel = new StockTableModel(domainController);
         historyTableModel = new HistoryTableModel();
         currentPurchaseTableModel = new PurchaseInfoTableModel();
         secHistoryTableModel = new SecondHistoryTableModel();

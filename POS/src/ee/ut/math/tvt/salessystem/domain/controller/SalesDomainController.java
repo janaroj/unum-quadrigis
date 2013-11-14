@@ -21,6 +21,14 @@ public interface SalesDomainController {
 	 */
 	public List<StockItem> loadWarehouseState();
 
+	public void addNewStockItem(StockItem good) throws VerificationFailedException;
+	 
+	public void modifyStockItem(StockItem good) throws VerificationFailedException;
+	 
+	public void updateEntities(List<? extends DisplayableItem> items) throws VerificationFailedException;
+	 
+	public void saveEntities(List<? extends DisplayableItem> items) throws VerificationFailedException;
+	
 	// business processes
 	/**
 	 * Initiate new business transaction - purchase of the goods.
