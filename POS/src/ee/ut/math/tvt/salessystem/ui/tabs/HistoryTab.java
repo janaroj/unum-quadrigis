@@ -15,7 +15,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.JTableHeader;
 
-import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
@@ -111,14 +110,14 @@ class ListListener implements ListSelectionListener {
 		this.model = model;
 	
 	}
-	@Override
+	@Override //TODO
 	public void valueChanged(ListSelectionEvent e) {
-		if (table.getSelectedRow()>=0) {
-		List<SoldItem> historyItem = model.getHistoryTableModel().getItem(table.getSelectedRow()).getSoldItems();
-		if (model.getSecondHistoryTableModel().getRowCount()!=0) model.getSecondHistoryTableModel().removeItems();
+	//	if (table.getSelectedRow()>=0) {
+		//List<SoldItem> historyItem = model.getHistoryTableModel().getItem(table.getSelectedRow()).getSoldItems();
+	//	if (model.getSecondHistoryTableModel().getRowCount()!=0) model.getSecondHistoryTableModel().removeItems();
 		
-		for (SoldItem si:historyItem) {model.getSecondHistoryTableModel().addItem(si);}
+	//	for (SoldItem si:historyItem) {model.getSecondHistoryTableModel().addItem(si);}
 		
-		}
+		//}
 	}
 }

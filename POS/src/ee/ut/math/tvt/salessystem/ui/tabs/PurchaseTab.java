@@ -25,7 +25,6 @@ import javax.swing.event.DocumentListener;
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
-import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
@@ -303,7 +302,7 @@ public class PurchaseTab {
 		cl.show(cards, "ConfirmPanel");
 	}
 
-	public void addToHistory() {
+	public void addToHistory() throws VerificationFailedException {
 		Date date = new Date();
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 		int i = 0;
@@ -320,9 +319,9 @@ public class PurchaseTab {
 					.getSum();
 			i++;
 		}
-		model.getHistoryTableModel().addItem(
-				new HistoryItem(dateString, timeString, sum, model
-						.getCurrentPurchaseTableModel().getTableRows()));
+		domainController.submitCurrentPurchase(model
+				.getCurrentPurchaseTableModel().getTableRows());
+	
 	}
 
 	public void removeFromStock() {

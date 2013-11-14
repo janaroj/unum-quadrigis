@@ -5,7 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
@@ -32,9 +31,6 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	@Column(name = "itemprice")
 	private double price;
 
-	@ManyToOne
-	@JoinColumn(name = "acceptedorder_id", nullable = true)
-	private HistoryItem historyItem;
 
 	public SoldItem(StockItem stockItem, int quantity) {
 		this.stockItem = stockItem;

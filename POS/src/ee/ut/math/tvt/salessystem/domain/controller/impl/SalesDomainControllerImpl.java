@@ -7,7 +7,6 @@ import org.hibernate.Transaction;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.DisplayableItem;
-import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
@@ -19,8 +18,7 @@ import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 public class SalesDomainControllerImpl implements SalesDomainController {
 	private final Session session = HibernateUtil.currentSession();
 
-	private void saveEntities(List<? extends DisplayableItem> items)
-			throws VerificationFailedException {
+	private void saveEntities(List<? extends DisplayableItem> items) throws VerificationFailedException {
 		Transaction transaction = null;
 
 		try {
@@ -40,12 +38,9 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 
 	public void submitCurrentPurchase(List<SoldItem> goods)
 			throws VerificationFailedException {
+		saveEntities(goods);
 
-		// Let's assume we have checked and found out that the buyer is
-		// underaged and
-		// cannot buy chupa-chups
-		// throw new VerificationFailedException("Underaged!");
-		// XXX - Save purchase
+	
 	}
 
 	public void cancelCurrentPurchase() throws VerificationFailedException {
