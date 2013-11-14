@@ -210,7 +210,7 @@ public class PurchaseTab {
 		panel.add(new JLabel(((Double) sumItems()).toString()));
 		panel.add(new JLabel("Change"));
 		panel.add(Empty);
-		
+
 		panel.add(ConfirmButton);
 		panel.add(CancelButton);
 
@@ -219,12 +219,14 @@ public class PurchaseTab {
 
 	public void SetChangeText() {
 		Empty.setText(PaymentSum.getText());
-		if (Empty.getText() == null) {
+		if (Empty.getText().length() == 0) {
 			Empty.setText("0");
+			ConfirmButton.setEnabled(false);
 		}
 		try {
-			if (Empty.getText() == null) {
+			if (Empty.getText().length() == 0) {
 				Empty.setText("0");
+				ConfirmButton.setEnabled(false);
 			}
 			if (Double.parseDouble(Empty.getText()) - sumItems() < 0) {
 				{
@@ -321,15 +323,19 @@ public class PurchaseTab {
 					.getSum();
 			i++;
 		}
-		HistoryItem hi = new HistoryItem(dateString,timeString,sum);
+		HistoryItem hi = new HistoryItem(dateString, timeString, sum);
 		domainController.saveHistory(hi);
-		for (SoldItem si:model.getCurrentPurchaseTableModel().getTableRows()) {
+		for (SoldItem si : model.getCurrentPurchaseTableModel().getTableRows()) {
 			si.setHistoryItemId(hi.getId());
 		}
 		
 		domainController.submitCurrentPurchase(model.getCurrentPurchaseTableModel().getTableRows());
 		model.getHistoryTableModel().addItem(hi);
 	
+
+		domainController.submitCurrentPurchase(model
+				.getCurrentPurchaseTableModel().getTableRows());
+
 	}
 
 	public void removeFromStock() {
