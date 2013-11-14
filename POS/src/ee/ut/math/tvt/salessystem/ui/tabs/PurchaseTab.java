@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
@@ -320,7 +321,12 @@ public class PurchaseTab {
 					.getSum();
 			i++;
 		}
-		domainController.saveHistory(new HistoryItem(dateString,timeString,sum));
+		HistoryItem hi = new HistoryItem(dateString,timeString,sum);
+		domainController.saveHistory(hi);
+		for (SoldItem si:model.getCurrentPurchaseTableModel().getTableRows()) {
+			si.setHistoryItemId(hi.getId());
+		}
+		
 		domainController.submitCurrentPurchase(model.getCurrentPurchaseTableModel().getTableRows());
 	
 	}

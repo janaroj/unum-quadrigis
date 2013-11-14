@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Already bought StockItem. SoldItem duplicates name and price for preserving
@@ -20,10 +21,12 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	//@OneToOne
-	//@JoinColumn(name = "stockitem_id", nullable = true)
-	private StockItem stockItem;
+	
+	@Column(name="sale_id")
+	private long historyItemId;
+	
+	@Column(name="stockitem_id")
+	private Long stockItemId;
 
 	@Column(name = "name")
 	private String name;
@@ -40,21 +43,29 @@ public class SoldItem implements Cloneable, DisplayableItem {
 
 
 	public SoldItem(StockItem stockItem, int quantity) {
-		this.stockItem = stockItem;
-		this.id = stockItem.getId();
+		this.stockItemId = stockItem.getId();
 		this.name = stockItem.getName();
 		this.price = stockItem.getPrice();
 		this.quantity = quantity;
-		sum = this.price*this.quantity;
-
+		this.sum = this.price*this.quantity;
 	}
 
+	public SoldItem(StockItem stockItem, int quantity,HistoryItem historyItem) {
+		this.stockItemId = stockItem.getId();
+		this.name = stockItem.getName();
+		this.price = stockItem.getPrice();
+		this.quantity = quantity;
+		this.sum = this.price*this.quantity;
+		this.historyItemId=historyItem.getId();
+
+	}
+	
 	public Long getId() {
-		return id;
+		return stockItemId;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		this.stockItemId = id;
 	}
 
 	public String getName() {
@@ -86,12 +97,25 @@ public class SoldItem implements Cloneable, DisplayableItem {
 				.round((price * ((double) quantity)) * 100)))) / 100;
 	}
 
-	public StockItem getStockItem() {
-		return stockItem;
+	public long getHistoryItemId() {
+		return historyItemId;
 	}
 
-	public void setStockItem(StockItem stockItem) {
-		this.stockItem = stockItem;
+	public void setHistoryItemId(long historyItemId) {
+		this.historyItemId = historyItemId;
 	}
+
+	public Long getStockItemId() {
+		return stockItemId;
+	}
+
+	public void setStockItemId(Long stockItemId) {
+		this.stockItemId = stockItemId;
+	}
+
+	public void setSum(double sum) {
+		this.sum = sum;
+	}
+
 
 }
