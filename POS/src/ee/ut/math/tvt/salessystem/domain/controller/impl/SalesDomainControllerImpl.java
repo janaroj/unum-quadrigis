@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.DisplayableItem;
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
@@ -49,7 +50,6 @@ public class SalesDomainControllerImpl implements SalesDomainController {
                   for (DisplayableItem item : items) {
                           session.merge(item);
                   }
-                  System.out.println("done");
                   session.flush();
                   transaction.commit();
           } catch (Exception e) {
@@ -73,11 +73,16 @@ public class SalesDomainControllerImpl implements SalesDomainController {
              updateEntities(goods);
      }
      
+     public void saveHistory(HistoryItem item) throws VerificationFailedException {
+    	 List<HistoryItem> history = new ArrayList<HistoryItem>();
+         history.add(item);
+         saveEntities(history);
+     }
+     
 
 	public void submitCurrentPurchase(List<SoldItem> goods)
 			throws VerificationFailedException {
-		saveEntities(goods);
-
+		updateEntities(goods);
 	
 	}
 

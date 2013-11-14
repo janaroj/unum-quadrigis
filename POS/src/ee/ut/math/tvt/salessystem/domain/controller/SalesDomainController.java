@@ -3,6 +3,7 @@ package ee.ut.math.tvt.salessystem.domain.controller;
 import java.util.List;
 
 import ee.ut.math.tvt.salessystem.domain.data.DisplayableItem;
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
@@ -21,6 +22,8 @@ public interface SalesDomainController {
 	 */
 	public List<StockItem> loadWarehouseState();
 
+	 public void saveHistory(HistoryItem item) throws VerificationFailedException;
+	
 	public void addNewStockItem(StockItem good) throws VerificationFailedException;
 	 
 	public void modifyStockItem(StockItem good) throws VerificationFailedException;

@@ -25,6 +25,7 @@ import javax.swing.event.DocumentListener;
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
@@ -319,8 +320,8 @@ public class PurchaseTab {
 					.getSum();
 			i++;
 		}
-		domainController.submitCurrentPurchase(model
-				.getCurrentPurchaseTableModel().getTableRows());
+		domainController.saveHistory(new HistoryItem(dateString,timeString,sum));
+		domainController.submitCurrentPurchase(model.getCurrentPurchaseTableModel().getTableRows());
 	
 	}
 
@@ -344,8 +345,6 @@ public class PurchaseTab {
 			domainController.submitPurchase();
 			log.debug("Contents of the current basket:\n"
 					+ model.getCurrentPurchaseTableModel());
-			domainController.submitCurrentPurchase(model
-					.getCurrentPurchaseTableModel().getTableRows());
 
 			removeFromStock();
 			addToHistory();
