@@ -28,8 +28,12 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	@Column(name = "quantity")
 	private Integer quantity;
 
-	@Column(name = "itemprice")
+	@Column(name = "item_price")
 	private double price;
+	
+	@Column(name = "total_sum")
+	private double sum;
+	
 
 
 	public SoldItem(StockItem stockItem, int quantity) {
@@ -38,6 +42,7 @@ public class SoldItem implements Cloneable, DisplayableItem {
 		this.name = stockItem.getName();
 		this.price = stockItem.getPrice();
 		this.quantity = quantity;
+		sum = this.price*this.quantity;
 
 	}
 
