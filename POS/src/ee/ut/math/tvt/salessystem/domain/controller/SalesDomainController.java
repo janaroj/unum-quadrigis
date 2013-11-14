@@ -2,6 +2,7 @@ package ee.ut.math.tvt.salessystem.domain.controller;
 
 import java.util.List;
 
+import ee.ut.math.tvt.salessystem.domain.data.DisplayableItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
@@ -50,5 +51,6 @@ public interface SalesDomainController {
 	public void submitCurrentPurchase(List<SoldItem> goods)
 			throws VerificationFailedException;
 
+	//public void saveEntities(List<? extends DisplayableItem> items) throws VerificationFailedException;
 
 }

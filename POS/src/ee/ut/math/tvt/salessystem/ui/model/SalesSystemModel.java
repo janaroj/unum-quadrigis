@@ -3,6 +3,7 @@ package ee.ut.math.tvt.salessystem.ui.model;
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
 /**
  * Main model. Holds all the other models.
@@ -56,7 +57,6 @@ public class SalesSystemModel {
     public SecondHistoryTableModel getSecondHistoryTableModel(){
     	return secHistoryTableModel;
     }
-    
     
     
     

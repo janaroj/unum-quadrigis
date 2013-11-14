@@ -192,7 +192,6 @@ public class StockTab {
 					quantity);
 
 			model.getWarehouseTableModel().addItem(stockItem);
-
 			resetNonUniqueFields();
 			idField.setText("");
 
