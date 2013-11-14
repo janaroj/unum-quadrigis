@@ -22,7 +22,11 @@ public interface SalesDomainController {
 	 */
 	public List<StockItem> loadWarehouseState();
 
-	 public void saveHistory(HistoryItem item) throws VerificationFailedException;
+	public List<HistoryItem> loadHistoryState();
+	
+	public List<SoldItem> loadBoughtItems(int id);
+	
+	public void saveHistory(HistoryItem item) throws VerificationFailedException;
 	
 	public void addNewStockItem(StockItem good) throws VerificationFailedException;
 	 

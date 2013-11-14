@@ -25,6 +25,8 @@ public class HistoryItem implements DisplayableItem {
 	@Column(name = "time")
 	private String time;
 
+	public HistoryItem(){}
+	
 	public HistoryItem(String date, String time, double sum) {
 		this.sum = sum;
 		this.date = date;

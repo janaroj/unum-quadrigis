@@ -103,6 +103,16 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		return session.createQuery("from StockItem").list();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<HistoryItem> loadHistoryState() {
+		return session.createQuery("from HistoryItem").list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<SoldItem> loadBoughtItems(int id) {
+		return session.createQuery("from SoldItem where sale_id = :nr").setParameter("nr", id).list();
+	}
+	
 	public void endSession() {
 		HibernateUtil.closeSession();
 

@@ -2,25 +2,35 @@
 
 import org.apache.log4j.Logger;
 
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 
 /**
  * Stock item table model.
  */
-public class HistoryTableModel extends SalesSystemTableModel<SoldItem> {
+public class HistoryTableModel extends SalesSystemTableModel<HistoryItem> {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger log = Logger.getLogger(HistoryTableModel.class);
 	public HistoryTableModel() {
-		super(new String[] {"Date", "Time", "Total Price"});
+		super(new String[] {"ID","Date", "Time", "Total Price"});
 	}
 
 
 
 	@Override
-	protected Object getColumnValue(SoldItem item, int columnIndex) {
-		return null;
-	//TODO
+	protected Object getColumnValue(HistoryItem item, int columnIndex) {
+		switch (columnIndex) {
+		case 0:
+			return item.getId();
+		case 1:
+			return item.getDate();
+		case 2:
+			return item.getTime();
+		case 3:
+			return item.getSum();
+		}
+		throw new IllegalArgumentException("Column index out of range");
 	}
 	
 	public String toString() {
@@ -30,24 +40,25 @@ public class HistoryTableModel extends SalesSystemTableModel<SoldItem> {
 			buffer.append(headers[i] + "\t");
 		buffer.append("\n");
 
-		for (final SoldItem HistoryItem : rows) {
-		//	buffer.append(HistoryItem.getDate() + "\t");
-		//	buffer.append(HistoryItem.getTime() + "\t");
-			buffer.append(HistoryItem.getSum() + "\t");
+		for (final HistoryItem hi : rows) {
+			buffer.append(hi.getId() +"\t");
+			buffer.append(hi.getDate() + "\t");
+			buffer.append(hi.getTime() + "\t");
+			buffer.append(hi.getSum() + "\t");
 			buffer.append("\n");
 		}
 
 		return buffer.toString();
 	}
 
-	  public void addItem(final SoldItem item) {
+	  public void addItem(final HistoryItem item) {
 	        
 	        rows.add(item);
 
 	        fireTableDataChanged();
 	    }
 	  
-	  public SoldItem getItem(int index) {
+	  public HistoryItem getItem(int index) {
 		  return rows.get(index);
 	  }
 

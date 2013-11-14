@@ -328,6 +328,7 @@ public class PurchaseTab {
 		}
 		
 		domainController.submitCurrentPurchase(model.getCurrentPurchaseTableModel().getTableRows());
+		model.getHistoryTableModel().addItem(hi);
 	
 	}
 

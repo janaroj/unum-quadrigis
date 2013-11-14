@@ -41,7 +41,8 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	private double sum;
 	
 
-
+	public SoldItem(){}
+	
 	public SoldItem(StockItem stockItem, int quantity) {
 		this.stockItemId = stockItem.getId();
 		this.name = stockItem.getName();

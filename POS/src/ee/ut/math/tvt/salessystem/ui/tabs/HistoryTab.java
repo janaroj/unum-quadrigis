@@ -15,6 +15,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.JTableHeader;
 
+import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
@@ -25,9 +26,11 @@ import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 public class HistoryTab {
     
 	private SalesSystemModel model;
+	private final SalesDomainController domainController;
 	
-    public HistoryTab(SalesSystemModel model) {
+    public HistoryTab(SalesSystemModel model,SalesDomainController dc) {
     	this.model=model;
+    	this.domainController = dc;
     } 
     
     public Component draw() {
@@ -84,7 +87,7 @@ public class HistoryTab {
         JTable table = new JTable(model.getHistoryTableModel());
         JTableHeader header = table.getTableHeader();
         header.setReorderingAllowed(false);
-        table.getSelectionModel().addListSelectionListener(new ListListener(table,model));
+        table.getSelectionModel().addListSelectionListener(new ListListener(table,model,domainController));
         JScrollPane scrollPane = new JScrollPane(table);
 
         GridBagConstraints gc = new GridBagConstraints();
@@ -102,22 +105,25 @@ public class HistoryTab {
 }
 
 class ListListener implements ListSelectionListener {
-	JTable table;
-	SalesSystemModel model;
-	
-	ListListener(JTable table,SalesSystemModel model){
+	private JTable table;
+	private SalesSystemModel model;
+	private final SalesDomainController domainController;
+	ListListener(JTable table,SalesSystemModel model,SalesDomainController dc){
 		this.table=table;
 		this.model = model;
+		this.domainController=dc;
 	
 	}
-	@Override //TODO
 	public void valueChanged(ListSelectionEvent e) {
-	//	if (table.getSelectedRow()>=0) {
-		//List<SoldItem> historyItem = model.getHistoryTableModel().getItem(table.getSelectedRow()).getSoldItems();
-	//	if (model.getSecondHistoryTableModel().getRowCount()!=0) model.getSecondHistoryTableModel().removeItems();
+		int row = table.getSelectedRow()+1;
 		
-	//	for (SoldItem si:historyItem) {model.getSecondHistoryTableModel().addItem(si);}
+		if (table.getSelectedRow()>=0) {
+		if (model.getSecondHistoryTableModel().getRowCount()!=0) model.getSecondHistoryTableModel().removeItems();
 		
-		//}
+		List<SoldItem> soldItems = domainController.loadBoughtItems(row);
+		
+		for (SoldItem si:soldItems) {model.getSecondHistoryTableModel().addItem(si);}
+		
+		}
 	}
 }
