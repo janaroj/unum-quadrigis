@@ -21,4 +21,7 @@ public class VerificationFailedException extends Exception {
 	public VerificationFailedException(final String message) {
 		super(message);
 	}
+	public VerificationFailedException(Exception message) {
+		super(message);
+	}
 }

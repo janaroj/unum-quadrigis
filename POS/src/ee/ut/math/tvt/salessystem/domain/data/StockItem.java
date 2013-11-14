@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -13,9 +14,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "STOCKITEM")
 public class StockItem implements Cloneable, DisplayableItem {
-	
+
+	@SequenceGenerator(name="seq", initialValue=1, allocationSize=1)
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     private Long id;
 	@Column(name = "name")
     private String name;
@@ -109,6 +111,7 @@ public class StockItem implements Cloneable, DisplayableItem {
             case 1: return name;
             case 2: return new Double(price);
             case 3: return new Integer(quantity);
+            case 4: return description;
             default: throw new RuntimeException("invalid column!");
         }
     }
