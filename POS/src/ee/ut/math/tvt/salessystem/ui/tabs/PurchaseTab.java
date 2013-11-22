@@ -325,6 +325,7 @@ public class PurchaseTab {
 		}
 		HistoryItem hi = new HistoryItem(dateString, timeString, sum);
 		domainController.saveHistory(hi);
+		
 		for (SoldItem si : model.getCurrentPurchaseTableModel().getTableRows()) {
 			si.setHistoryItemId(hi.getId());
 		}
