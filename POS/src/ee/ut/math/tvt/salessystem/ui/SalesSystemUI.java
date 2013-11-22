@@ -25,71 +25,71 @@ import ee.ut.math.tvt.salessystem.ui.tabs.StockTab;
  */
 public class SalesSystemUI extends JFrame {
 
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  private static final Logger log = Logger.getLogger(SalesSystemUI.class);
+	private static final Logger log = Logger.getLogger(SalesSystemUI.class);
 
-  private final SalesDomainController dc;
+	private final SalesDomainController dc;
 
-  // Warehouse model
-  private SalesSystemModel model;
+	// Warehouse model
+	private SalesSystemModel model;
 
-  // Instances of tab classes
-  private PurchaseTab purchaseTab;
-  private HistoryTab historyTab;
-  private StockTab stockTab; 
+	// Instances of tab classes
+	private PurchaseTab purchaseTab;
+	private HistoryTab historyTab;
+	private StockTab stockTab;
 
-  /**
-   * Constructs sales system GUI.
-   * @param domainController Sales domain controller.
-   */
-  public SalesSystemUI(SalesDomainController domainController) {
-    this.dc = domainController;
-    this.model = new SalesSystemModel(domainController);
+	/**
+	 * Constructs sales system GUI.
+	 * 
+	 * @param domainController
+	 *            Sales domain controller.
+	 */
+	public SalesSystemUI(SalesDomainController domainController) {
+		this.dc = domainController;
+		this.model = new SalesSystemModel(domainController);
 
-    // Create singleton instances of the tab classes
-    historyTab = new HistoryTab(model,dc);
-    stockTab = new StockTab(model);
-    purchaseTab = new PurchaseTab(domainController, model);
- 
-    setTitle("Sales system");
+		// Create singleton instances of the tab classes
+		historyTab = new HistoryTab(model, dc);
+		stockTab = new StockTab(model);
+		purchaseTab = new PurchaseTab(domainController, model);
 
-    // set L&F to the nice Windows style
-    try {
-      UIManager.setLookAndFeel(new WindowsLookAndFeel());
+		setTitle("Sales system");
 
-    } catch (UnsupportedLookAndFeelException e1) {
-      log.warn(e1.getMessage());
-    }
+		// set L&F to the nice Windows style
+		try {
+			UIManager.setLookAndFeel(new WindowsLookAndFeel());
 
-    drawWidgets();
+		} catch (UnsupportedLookAndFeelException e1) {
+			log.warn(e1.getMessage());
+		}
 
-    // size & location
-    int width = 600;
-    int height = 400;
-    setSize(width, height);
-    Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-    setLocation((screen.width - width) / 2, (screen.height - height) / 2);
+		drawWidgets();
 
-    addWindowListener(new WindowAdapter() {
-      @Override
-      public void windowClosing(WindowEvent e) {
-    	dc.endSession();
-        System.exit(0);
-      }
-    });
-  }
+		// size & location
+		int width = 600;
+		int height = 400;
+		setSize(width, height);
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		setLocation((screen.width - width) / 2, (screen.height - height) / 2);
 
-  private void drawWidgets() {
-    JTabbedPane tabbedPane = new JTabbedPane();
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				dc.endSession();
+				System.exit(0);
+			}
+		});
+	}
 
-    tabbedPane.add("Point-of-sale", purchaseTab.draw());
-    tabbedPane.add("Warehouse", stockTab.draw());
-    tabbedPane.add("History", historyTab.draw());
+	private void drawWidgets() {
+		JTabbedPane tabbedPane = new JTabbedPane();
 
-    getContentPane().add(tabbedPane);
-  }
+		tabbedPane.add("Point-of-sale", purchaseTab.draw());
+		tabbedPane.add("Warehouse", stockTab.draw());
+		tabbedPane.add("History", historyTab.draw());
+
+		getContentPane().add(tabbedPane);
+	}
 
 }
-
-

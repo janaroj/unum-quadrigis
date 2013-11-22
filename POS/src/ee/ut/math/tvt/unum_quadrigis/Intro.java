@@ -8,7 +8,7 @@ import ee.ut.math.tvt.salessystem.ui.ConsoleUI;
 import ee.ut.math.tvt.salessystem.ui.SalesSystemUI;
 
 public class Intro {
-	
+
 	private static final Logger log = Logger.getLogger(Intro.class);
 	private static final String MODE = "console";
 
@@ -29,7 +29,6 @@ public class Intro {
 
 			final SalesSystemUI ui = new SalesSystemUI(domainController);
 			ui.setVisible(true);
-			
 
 			introUI.setAlwaysOnTop(false);
 			try {

@@ -17,7 +17,7 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 	private static final Logger log = Logger.getLogger(StockTableModel.class);
 
 	public StockTableModel(SalesDomainController dc) {
-		super(new String[] {"Id", "Name", "Price", "Quantity"});
+		super(new String[] { "Id", "Name", "Price", "Quantity" });
 		domainController = dc;
 	}
 
@@ -36,10 +36,10 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		throw new IllegalArgumentException("Column index out of range");
 	}
 
-	
 	/**
-	 * Add new stock item to table. If there already is a stock item with
-	 * same id, then existing item's quantity will be increased.
+	 * Add new stock item to table. If there already is a stock item with same
+	 * id, then existing item's quantity will be increased.
+	 * 
 	 * @param stockItem
 	 */
 	public void addItem(final StockItem stockItem) {
@@ -49,19 +49,17 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 			domainController.modifyStockItem(item);
 			log.debug("Found existing item " + stockItem.getName()
 					+ " increased quantity by " + stockItem.getQuantity());
-		}
-		catch (NoSuchElementException e) {
+		} catch (NoSuchElementException e) {
 			try {
-			rows.add(stockItem);
-			log.debug("Added " + stockItem.getName()
-					+ " quantity of " + stockItem.getQuantity());
-			
+				rows.add(stockItem);
+				log.debug("Added " + stockItem.getName() + " quantity of "
+						+ stockItem.getQuantity());
+
 				domainController.addNewStockItem(stockItem);
 			} catch (VerificationFailedException e1) {
 				log.debug("Error adding to database");
 			}
-		}
-		catch (VerificationFailedException ve) {
+		} catch (VerificationFailedException ve) {
 			log.debug("Error adding to database");
 		}
 		fireTableDataChanged();

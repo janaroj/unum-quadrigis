@@ -23,7 +23,8 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	private final Session session = HibernateUtil.currentSession();
 	private static final Logger log = Logger.getLogger(StockTableModel.class);
 
-	public void saveEntities(List<? extends DisplayableItem> items) throws VerificationFailedException {
+	public void saveEntities(List<? extends DisplayableItem> items)
+			throws VerificationFailedException {
 		Transaction transaction = null;
 
 		try {
@@ -41,49 +42,52 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 			throw new VerificationFailedException(e);
 		}
 	}
-	
-	  public void updateEntities(List<? extends DisplayableItem> items) throws VerificationFailedException {
-          Transaction transaction = null;
 
-          try {
-                  transaction = session.beginTransaction();
-                  for (DisplayableItem item : items) {
-                          session.merge(item);
-                  }
-                  session.flush();
-                  transaction.commit();
-          } catch (Exception e) {
-                  if (transaction != null) {
-                          transaction.rollback();
-                  }
-                  log.error(e);
-                  throw new VerificationFailedException(e);
-          }
-  }
-	  
-     public void addNewStockItem(StockItem good) throws VerificationFailedException {
-             List<StockItem> goods = new ArrayList<StockItem>();
-             goods.add(good);
-             saveEntities(goods);
-     }
+	public void updateEntities(List<? extends DisplayableItem> items)
+			throws VerificationFailedException {
+		Transaction transaction = null;
 
-     public void modifyStockItem(StockItem good) throws VerificationFailedException {
-             List<StockItem> goods = new ArrayList<StockItem>();
-             goods.add(good);
-             updateEntities(goods);
-     }
-     
-     public void saveHistory(HistoryItem item) throws VerificationFailedException {
-    	 List<HistoryItem> history = new ArrayList<HistoryItem>();
-         history.add(item);
-         saveEntities(history);
-     }
-     
+		try {
+			transaction = session.beginTransaction();
+			for (DisplayableItem item : items) {
+				session.merge(item);
+			}
+			session.flush();
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			log.error(e);
+			throw new VerificationFailedException(e);
+		}
+	}
+
+	public void addNewStockItem(StockItem good)
+			throws VerificationFailedException {
+		List<StockItem> goods = new ArrayList<StockItem>();
+		goods.add(good);
+		saveEntities(goods);
+	}
+
+	public void modifyStockItem(StockItem good)
+			throws VerificationFailedException {
+		List<StockItem> goods = new ArrayList<StockItem>();
+		goods.add(good);
+		updateEntities(goods);
+	}
+
+	public void saveHistory(HistoryItem item)
+			throws VerificationFailedException {
+		List<HistoryItem> history = new ArrayList<HistoryItem>();
+		history.add(item);
+		saveEntities(history);
+	}
 
 	public void submitCurrentPurchase(List<SoldItem> goods)
 			throws VerificationFailedException {
 		saveEntities(goods);
-	
+
 	}
 
 	public void cancelCurrentPurchase() throws VerificationFailedException {
@@ -107,12 +111,13 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	public List<HistoryItem> loadHistoryState() {
 		return session.createQuery("from HistoryItem").list();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<SoldItem> loadBoughtItems(int id) {
-		return session.createQuery("from SoldItem where sale_id = :nr").setParameter("nr", id).list();
+		return session.createQuery("from SoldItem where sale_id = :nr")
+				.setParameter("nr", id).list();
 	}
-	
+
 	public void endSession() {
 		HibernateUtil.closeSession();
 

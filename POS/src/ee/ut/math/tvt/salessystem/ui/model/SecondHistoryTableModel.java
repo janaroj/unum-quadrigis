@@ -31,19 +31,18 @@ public class SecondHistoryTableModel extends SalesSystemTableModel<SoldItem> {
 		case 4:
 			return item.getSum();
 		}
+		log.error("IllegalArgumentException");
 		throw new IllegalArgumentException("Column index out of range");
 	}
 
-	public void addItem(final SoldItem item){
-			rows.add(item);
-			fireTableDataChanged();
+	public void addItem(final SoldItem item) {
+		rows.add(item);
+		fireTableDataChanged();
 	}
-	
+
 	public void removeItems() {
 		rows.clear();
-		
+
 	}
-
-
 
 }

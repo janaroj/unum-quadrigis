@@ -328,10 +328,10 @@ public class PurchaseTab {
 		for (SoldItem si : model.getCurrentPurchaseTableModel().getTableRows()) {
 			si.setHistoryItemId(hi.getId());
 		}
-		
-		domainController.submitCurrentPurchase(model.getCurrentPurchaseTableModel().getTableRows());
+
+		domainController.submitCurrentPurchase(model
+				.getCurrentPurchaseTableModel().getTableRows());
 		model.getHistoryTableModel().addItem(hi);
-	
 
 		domainController.submitCurrentPurchase(model
 				.getCurrentPurchaseTableModel().getTableRows());

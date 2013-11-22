@@ -23,19 +23,24 @@ public interface SalesDomainController {
 	public List<StockItem> loadWarehouseState();
 
 	public List<HistoryItem> loadHistoryState();
-	
+
 	public List<SoldItem> loadBoughtItems(int id);
-	
-	public void saveHistory(HistoryItem item) throws VerificationFailedException;
-	
-	public void addNewStockItem(StockItem good) throws VerificationFailedException;
-	 
-	public void modifyStockItem(StockItem good) throws VerificationFailedException;
-	 
-	public void updateEntities(List<? extends DisplayableItem> items) throws VerificationFailedException;
-	 
-	public void saveEntities(List<? extends DisplayableItem> items) throws VerificationFailedException;
-	
+
+	public void saveHistory(HistoryItem item)
+			throws VerificationFailedException;
+
+	public void addNewStockItem(StockItem good)
+			throws VerificationFailedException;
+
+	public void modifyStockItem(StockItem good)
+			throws VerificationFailedException;
+
+	public void updateEntities(List<? extends DisplayableItem> items)
+			throws VerificationFailedException;
+
+	public void saveEntities(List<? extends DisplayableItem> items)
+			throws VerificationFailedException;
+
 	// business processes
 	/**
 	 * Initiate new business transaction - purchase of the goods.
@@ -60,12 +65,9 @@ public interface SalesDomainController {
 	 */
 
 	public void endSession();
-	
+
 	public void submitPurchase() throws VerificationFailedException;
 
 	public void submitCurrentPurchase(List<SoldItem> goods)
 			throws VerificationFailedException;
-
-	//public void saveEntities(List<? extends DisplayableItem> items) throws VerificationFailedException;
-
 }
