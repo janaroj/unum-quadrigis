@@ -5,11 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 /**
  * Already bought StockItem. SoldItem duplicates name and price for preserving
@@ -21,11 +17,11 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(name="sale_id")
+
+	@Column(name = "sale_id")
 	private long historyItemId;
-	
-	@Column(name="stockitem_id")
+
+	@Column(name = "stockitem_id")
 	private Long stockItemId;
 
 	@Column(name = "name")
@@ -36,31 +32,31 @@ public class SoldItem implements Cloneable, DisplayableItem {
 
 	@Column(name = "item_price")
 	private double price;
-	
+
 	@Column(name = "total_sum")
 	private double sum;
-	
 
-	public SoldItem(){}
-	
+	public SoldItem() {
+	}
+
 	public SoldItem(StockItem stockItem, int quantity) {
 		this.stockItemId = stockItem.getId();
 		this.name = stockItem.getName();
 		this.price = stockItem.getPrice();
 		this.quantity = quantity;
-		this.sum = this.price*this.quantity;
+		this.sum = this.price * this.quantity;
 	}
 
-	public SoldItem(StockItem stockItem, int quantity,HistoryItem historyItem) {
+	public SoldItem(StockItem stockItem, int quantity, HistoryItem historyItem) {
 		this.stockItemId = stockItem.getId();
 		this.name = stockItem.getName();
 		this.price = stockItem.getPrice();
 		this.quantity = quantity;
-		this.sum = this.price*this.quantity;
-		this.historyItemId=historyItem.getId();
+		this.sum = this.price * this.quantity;
+		this.historyItemId = historyItem.getId();
 
 	}
-	
+
 	public Long getId() {
 		return stockItemId;
 	}
@@ -117,6 +113,5 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	public void setSum(double sum) {
 		this.sum = sum;
 	}
-
 
 }
