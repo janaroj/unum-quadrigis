@@ -56,6 +56,10 @@
 		<fileset dir="${lib.dir}">
 			<include name="*.jar"/>
 		</fileset>
+		 <fileset dir="${lib.hibernate.dir}">
+			             <include name="*.jar"/>
+			        </fileset>
+		<pathelement location="${conf.dir}"/>
 	    <pathelement path="${build.classes.dir}/" />
 		<pathelement path="${build.test.dir}/" />
 	</path>
@@ -64,6 +68,7 @@
 		<fileset dir="${lib.dir}">
 			<include name="*.jar"/>
 		</fileset>
+	
 	</path>
 	
 	

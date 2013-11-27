@@ -26,12 +26,16 @@ public interface SalesDomainController {
 	
 	public List<SoldItem> loadBoughtItems(int id);
 	
+	public void removeStockItem(StockItem good) throws VerificationFailedException;
+	
 	public void saveHistory(HistoryItem item) throws VerificationFailedException;
 	
 	public void addNewStockItem(StockItem good) throws VerificationFailedException;
 	 
 	public void modifyStockItem(StockItem good) throws VerificationFailedException;
-	 
+	
+	public void removeEntities(List<? extends DisplayableItem> items) throws VerificationFailedException;
+	
 	public void updateEntities(List<? extends DisplayableItem> items) throws VerificationFailedException;
 	 
 	public void saveEntities(List<? extends DisplayableItem> items) throws VerificationFailedException;

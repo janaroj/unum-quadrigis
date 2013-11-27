@@ -73,6 +73,31 @@ public class SalesDomainControllerImpl implements SalesDomainController {
              updateEntities(goods);
      }
      
+     public void removeStockItem(StockItem good) throws VerificationFailedException {
+         List<StockItem> goods = new ArrayList<StockItem>();
+         goods.add(good);
+         removeEntities(goods);
+ }
+     
+     public void removeEntities(List<? extends DisplayableItem> items) throws VerificationFailedException {
+    	  Transaction transaction = null;
+
+          try {
+                  transaction = session.beginTransaction();
+                  for (DisplayableItem item : items) {
+                          session.delete(item);
+                  }
+                  session.flush();
+                  transaction.commit();
+          } catch (Exception e) {
+                  if (transaction != null) {
+                          transaction.rollback();
+                  }
+                  log.error(e);
+                  throw new VerificationFailedException(e);
+          }
+ 	}
+     
      public void saveHistory(HistoryItem item) throws VerificationFailedException {
     	 List<HistoryItem> history = new ArrayList<HistoryItem>();
          history.add(item);
@@ -117,5 +142,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		HibernateUtil.closeSession();
 
 	}
+
+	
 
 }

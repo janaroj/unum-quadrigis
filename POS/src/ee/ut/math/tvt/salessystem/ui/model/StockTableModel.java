@@ -66,6 +66,10 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		}
 		fireTableDataChanged();
 	}
+	
+	public void removeItem(final StockItem stockItem) throws VerificationFailedException {
+		domainController.removeStockItem(stockItem);
+	}
 
 	@Override
 	public String toString() {
