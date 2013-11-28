@@ -21,7 +21,7 @@ public class StockTableModelTest {
 	@Before
 	public void setUp() {
 		stockModel = new StockTableModel(domainController);
-		stockItem = new StockItem("Free meal","campaign",0);
+		stockItem = new StockItem((long) 120,"Free meal","campaign",0);
 		stockModel.addItem(stockItem);
 		id = stockItem.getId();
 	}

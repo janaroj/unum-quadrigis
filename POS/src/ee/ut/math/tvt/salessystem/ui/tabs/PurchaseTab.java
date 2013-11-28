@@ -315,10 +315,6 @@ public class PurchaseTab {
 		String[] dateArray = dateTime.split((" - "));
 		String dateString = dateArray[0], timeString = dateArray[1];
 		while (i < model.getCurrentPurchaseTableModel().getTableRows().size()) {
-			model.getCurrentPurchaseTableModel().getTableRows().get(i)
-					.getPrice();
-			model.getCurrentPurchaseTableModel().getTableRows().get(i)
-					.getName();
 			sum += model.getCurrentPurchaseTableModel().getTableRows().get(i)
 					.getSum();
 			i++;
