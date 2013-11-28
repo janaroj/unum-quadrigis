@@ -278,6 +278,7 @@
 	            target="1.5"
 	            source="1.5"
 	        	classpathref="libs"
+				includeantruntime="false"
 	        >
 				<classpath>
 					<pathelement path="${build.classes.dir}" />
@@ -286,7 +287,6 @@
 		</target>
 	
 	<target name="test" depends="build-tests" description="Run the template application">
-
 			<junit>
 				<classpath refid="test-classpath" />
 

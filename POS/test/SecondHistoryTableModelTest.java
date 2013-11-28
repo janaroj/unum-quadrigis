@@ -50,8 +50,6 @@ public class SecondHistoryTableModelTest {
 		try {
 		
 			domainController.saveHistory(historyItem2,soldItems2);
-			System.out.println("Hist: " + historyItem2.getId());
-			System.out.println("Item 3: " +item3.getHistoryItemId());
 			secondHistoryModel.updateTable(historyItem2.getId());
 			Assert.assertEquals(soldItems2.size(), secondHistoryModel.getRowCount());
 		} catch (VerificationFailedException e) {
