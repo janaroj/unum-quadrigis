@@ -16,8 +16,8 @@ public class SoldItemTest {
 
 	@Before
 	public void SetUp() {
-		item1 = new SoldItem(new StockItem((long) 1, "Peet", "Punane", 5.0), 0);
-		item2 = new SoldItem(new StockItem((long) 2, "Porgand", "Oranz", 3.0),
+		item1 = new SoldItem(new StockItem("Peet", "Punane", 5.0,1), 0);
+		item2 = new SoldItem(new StockItem("Porgand", "Oranz", 3.0,1),
 				0);
 
 		SoldItemList.add(item1);

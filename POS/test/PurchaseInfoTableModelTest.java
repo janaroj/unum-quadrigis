@@ -19,11 +19,11 @@ public class PurchaseInfoTableModelTest {
 
 	@Before
 	public void SetUp() {
-		item1 = new SoldItem(new StockItem(id, name, desc, prices[0], 7),
+		item1 = new SoldItem(new StockItem(name, desc, prices[0], 7),
 				quantities[0]);
-		item2 = new SoldItem(new StockItem((long) 1, "Juust", "Kollane",
+		item2 = new SoldItem(new StockItem("Juust", "Kollane",
 				prices[1], 5), quantities[1]);
-		item3 = new SoldItem(new StockItem((long) 2, "Kurk", "Luunja",
+		item3 = new SoldItem(new StockItem("Kurk", "Luunja",
 				prices[2], 3), quantities[2]);
 
 		tabel = new PurchaseInfoTableModel();
@@ -33,7 +33,7 @@ public class PurchaseInfoTableModelTest {
 	@Test
 	public void testAddSoldItem() {
 		tabel.addItem(item1);
-		tabel.getItemById(id);// If no exception thrown, then works.
+		Assert.assertFalse(tabel.getTableRows().isEmpty()); //If it isn't empty then works
 	}
 
 	@Test(expected = IndexOutOfBoundsException.class)

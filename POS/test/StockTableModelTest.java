@@ -20,10 +20,15 @@ public class StockTableModelTest {
 	
 	@Before
 	public void setUp() {
+		try {
 		stockModel = new StockTableModel(domainController);
-		stockItem = new StockItem((long) 120,"Free meal","campaign",0);
+		stockItem = new StockItem("Free meal","campaign",0,10);
 		stockModel.addItem(stockItem);
+		domainController.addNewStockItem(stockItem);
 		id = stockItem.getId();
+		} catch (VerificationFailedException e) {
+		}
+		
 	}
 	
 	@Test(expected = NoSuchElementException.class)  //TODO vale exception

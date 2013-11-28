@@ -36,9 +36,9 @@ public class HistoryTableModelTest {
 	public void testGeneratingId(){
 		try {
 			historyModel.addItem(historyItem);
-			long defaultId = historyItem.getId();
+			Assert.assertNull(historyItem.getId()); //At first it isn't set
 			domainController.saveHistory(historyItem); //saves to database, DB automatically generates an id
-			Assert.assertNotSame(defaultId, historyItem.getId());
+			Assert.assertNotNull(historyItem.getId());
 			List<HistoryItem> histList = new ArrayList<HistoryItem>();
 			histList.add(historyItem);
 			domainController.removeEntities(histList);
