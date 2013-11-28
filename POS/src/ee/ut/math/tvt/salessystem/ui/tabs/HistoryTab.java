@@ -87,7 +87,7 @@ public class HistoryTab {
         JTable table = new JTable(model.getHistoryTableModel());
         JTableHeader header = table.getTableHeader();
         header.setReorderingAllowed(false);
-        table.getSelectionModel().addListSelectionListener(new ListListener(table,model,domainController));
+        table.getSelectionModel().addListSelectionListener(new ListListener(table,model));
         JScrollPane scrollPane = new JScrollPane(table);
 
         GridBagConstraints gc = new GridBagConstraints();
@@ -107,23 +107,15 @@ public class HistoryTab {
 class ListListener implements ListSelectionListener {
 	private JTable table;
 	private SalesSystemModel model;
-	private final SalesDomainController domainController;
-	ListListener(JTable table,SalesSystemModel model,SalesDomainController dc){
+	ListListener(JTable table,SalesSystemModel model){
 		this.table=table;
 		this.model = model;
-		this.domainController=dc;
 	
 	}
 	public void valueChanged(ListSelectionEvent e) {
-		int row = table.getSelectedRow()+1;
-		
-		if (table.getSelectedRow()>=0) {
-		if (model.getSecondHistoryTableModel().getRowCount()!=0) model.getSecondHistoryTableModel().removeItems();
-		
-		List<SoldItem> soldItems = domainController.loadBoughtItems(row);
-		
-		for (SoldItem si:soldItems) {model.getSecondHistoryTableModel().addItem(si);}
-		
+		if (table.getSelectedRowCount()==1) {
+			model.getSecondHistoryTableModel().updateTable(model.getHistoryTableModel().getItem(table.getSelectedRow()).getId());
 		}
+			else {model.getSecondHistoryTableModel().removeItems();}
 	}
 }

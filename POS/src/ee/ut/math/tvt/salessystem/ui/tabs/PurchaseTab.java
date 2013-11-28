@@ -320,34 +320,10 @@ public class PurchaseTab {
 			i++;
 		}
 		HistoryItem hi = new HistoryItem(dateString, timeString, sum);
-		domainController.saveHistory(hi);
-		
-		for (SoldItem si : model.getCurrentPurchaseTableModel().getTableRows()) {
-			si.setHistoryItemId(hi.getId());
-		}
-		
-		domainController.submitCurrentPurchase(model.getCurrentPurchaseTableModel().getTableRows());
-		model.getHistoryTableModel().addItem(hi);
-	
-
-		domainController.submitCurrentPurchase(model
-				.getCurrentPurchaseTableModel().getTableRows());
-
+		domainController.saveHistory(hi,model.getCurrentPurchaseTableModel().getTableRows());
+		model.getHistoryTableModel().populateWithData(domainController.loadHistoryState());
 	}
 
-	public void removeFromStock() {
-		int i = 0;
-		while (i < model.getCurrentPurchaseTableModel().getTableRows().size()) {
-			int qnt = model.getCurrentPurchaseTableModel().getTableRows()
-					.get(i).getQuantity();
-			long id = model.getCurrentPurchaseTableModel().getTableRows()
-					.get(i).getId();
-			StockItem stockItem = model.getWarehouseTableModel()
-					.getItemById(id);
-			stockItem.setQuantity(stockItem.getQuantity() - qnt);
-			i++;
-		}
-	}
 
 	protected void confirmedClicked() {
 		log.info("Sale complete");
@@ -356,7 +332,7 @@ public class PurchaseTab {
 			log.debug("Contents of the current basket:\n"
 					+ model.getCurrentPurchaseTableModel());
 
-			removeFromStock();
+			model.getWarehouseTableModel().removeFromStock(model.getCurrentPurchaseTableModel().getTableRows());
 			addToHistory();
 			endSale();
 			model.getCurrentPurchaseTableModel().clear();

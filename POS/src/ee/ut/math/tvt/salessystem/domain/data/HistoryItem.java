@@ -67,4 +67,8 @@ public class HistoryItem implements DisplayableItem {
 		return id;
 	}
 
+	public String getName() {
+		return date + time;
+	}
+
 }

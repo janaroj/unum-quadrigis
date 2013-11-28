@@ -12,6 +12,7 @@ import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 public class SoldItemTest {
 	private SoldItem item1;
 	private SoldItem item2;
+	private SoldItem item3;
 	private List<SoldItem> SoldItemList = new ArrayList<SoldItem>();
 
 	@Before
@@ -19,6 +20,7 @@ public class SoldItemTest {
 		item1 = new SoldItem(new StockItem("Peet", "Punane", 5.0,1), 0);
 		item2 = new SoldItem(new StockItem("Porgand", "Oranz", 3.0,1),
 				0);
+		item3 = new SoldItem(new StockItem("TestItem","Test",7.0,5),2);
 
 		SoldItemList.add(item1);
 		SoldItemList.add(item2);
@@ -26,8 +28,10 @@ public class SoldItemTest {
 
 	@Test
 	public void testGetSum() {
-		Assert.assertEquals(0.0, item1.getSum());
+		Assert.assertEquals(14.0, item3.getSum());
 	}
+	
+	
 
 	@Test
 	public void testGetSumWithZeroQuantity() {
@@ -36,7 +40,7 @@ public class SoldItemTest {
 		}
 	}
 
-	public void testGetSumWithZeroQuantity(SoldItem si) {
+	private void testGetSumWithZeroQuantity(SoldItem si) {
 		Assert.assertEquals(0.0, si.getSum());
 	}
 }

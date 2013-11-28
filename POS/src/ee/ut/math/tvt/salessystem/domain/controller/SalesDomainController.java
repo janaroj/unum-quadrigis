@@ -24,11 +24,11 @@ public interface SalesDomainController {
 
 	public List<HistoryItem> loadHistoryState();
 	
-	public List<SoldItem> loadBoughtItems(int id);
+	public List<SoldItem> loadBoughtItems(long l);
 	
 	public void removeStockItem(StockItem good) throws VerificationFailedException;
 	
-	public void saveHistory(HistoryItem item) throws VerificationFailedException;
+	public void saveHistory(HistoryItem item,List<SoldItem> items) throws VerificationFailedException;
 	
 	public void addNewStockItem(StockItem good) throws VerificationFailedException;
 	 

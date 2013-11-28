@@ -15,7 +15,6 @@ import javax.persistence.Table;
 public class StockItem implements Cloneable, DisplayableItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
     private Long id;
 	@Column(name = "name")
     private String name;

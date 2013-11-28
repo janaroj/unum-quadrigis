@@ -9,6 +9,7 @@ import org.junit.Test;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.controller.impl.SalesDomainControllerImpl;
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.HistoryTableModel;
 
@@ -23,6 +24,7 @@ public class HistoryTableModelTest {
 	@Before
 	public void setUp() {
 		historyModel = new HistoryTableModel();
+		
 		historyItem = new HistoryItem(date,time,sum);
 	}
 	
@@ -37,13 +39,24 @@ public class HistoryTableModelTest {
 		try {
 			historyModel.addItem(historyItem);
 			Assert.assertNull(historyItem.getId()); //At first it isn't set
-			domainController.saveHistory(historyItem); //saves to database, DB automatically generates an id
-			Assert.assertNotNull(historyItem.getId());
+			domainController.saveHistory(historyItem,new ArrayList<SoldItem>()); //saves to database, DB automatically generates an id
+			
+			Assert.assertNotNull(historyItem.getId()); 
+			
+			//Removes from db
 			List<HistoryItem> histList = new ArrayList<HistoryItem>();
 			histList.add(historyItem);
 			domainController.removeEntities(histList);
 		} catch (VerificationFailedException e) {
 		}
+	}
+	
+	@Test
+	public void getItemTest(){
+		int rows = historyModel.getRowCount();  //this is the index of the next added item 
+		//(for example if there are 2 rows - they are with indexes 0,1 so if you add another item it's id would be 2
+		historyModel.addItem(historyItem);
+		Assert.assertSame(historyItem, historyModel.getItem(rows));
 	}
 	
 	

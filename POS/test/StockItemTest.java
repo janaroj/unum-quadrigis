@@ -48,8 +48,9 @@ public class StockItemTest {
 	}
 
 	private void testGetInvalidColumn(int id) throws RuntimeException {
-		item1.getColumn(id);// invalid column!
+		item1.getColumn(id);
 	}
+	
 	
 	@After
 	public void finish(){

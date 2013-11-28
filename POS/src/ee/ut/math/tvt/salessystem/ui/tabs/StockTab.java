@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.NoSuchElementException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -103,6 +104,25 @@ public class StockTab {
 		quantityField = new JTextField();
 		descriptionField = new JTextField();
 		
+		nameField.getDocument().addDocumentListener(docListener);
+		nameField.getDocument().addDocumentListener(new DocumentListener() {
+
+			public void removeUpdate(DocumentEvent e) {
+				setStockItemValues();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				setStockItemValues();
+
+			}
+
+			public void changedUpdate(DocumentEvent e) {
+				setStockItemValues();
+
+			}
+		});
+
+		
 		priceField.getDocument().addDocumentListener(docListener);
 		quantityField.getDocument().addDocumentListener(docListener);
 		addItemButton = new JButton("Add to warehouse");
@@ -181,27 +201,10 @@ public class StockTab {
 
 			StockItem stockItem = new StockItem(name, description, price,
 					quantity);
-
-			boolean sameNameExists = false;
-			for (StockItem item : model.getWarehouseTableModel().getTableRows()){
-				if (stockItem.getName().equals(item.getName())){
-					sameNameExists = true;
-				}
-			}
-			if (!sameNameExists){
-				domainController.addNewStockItem(stockItem);
-				model.getWarehouseTableModel().addItem(stockItem);
-				
-			}
-			else{
-				JOptionPane.showMessageDialog(null,
-						"Item with this name already exists", "Error",
-						JOptionPane.ERROR_MESSAGE);
-			}
-			
+			model.getWarehouseTableModel().addItem(stockItem);
 			
 			resetNonUniqueFields();
-
+			nameField.setText("");
 			setStockAddPaneEnabled(false);
 		} catch (NumberFormatException ex) {
 			Log.debug("Add to warehouse number format ex");
@@ -211,6 +214,7 @@ public class StockTab {
 		}
 
 	}
+	
 
 	protected void addButtonClicked() {
 		setStockAddPaneEnabled(true);
@@ -235,7 +239,7 @@ public class StockTab {
 	}
 
 	protected void resetNonUniqueFields() {
-		nameField.setText("");
+		idField.setText("");
 		priceField.setText("");
 		descriptionField.setText("");
 		quantityField.setText("");
@@ -243,7 +247,6 @@ public class StockTab {
 	}
 
 	protected void setStockAddPaneEditable(boolean b) {
-		nameField.setEditable(b);
 		priceField.setEditable(b);
 		descriptionField.setEditable(b);
 	}
@@ -270,7 +273,36 @@ public class StockTab {
 			priceField.setForeground(Color.red);
 
 		}
+		
 	}
+	
+	private void setStockItemValues() {
+		try {
+			// parsing exceptions
+			String itemName = nameField.getText();
+			StockItem item = model.getWarehouseTableModel().getItemByName(itemName);
+			
+			long id = item.getId();
+			Double price = item.getPrice();
+			String desc = item.getDescription();
+
+			idField.setText(id+"");
+			priceField.setText(price.toString());
+			descriptionField.setText(desc);
+
+			setStockAddPaneEditable(false);
+		} catch (NumberFormatException ex) {
+
+			setStockAddPaneEditable(true);
+			resetNonUniqueFields();
+
+		} catch (NoSuchElementException ex) {
+
+			setStockAddPaneEditable(true);
+			resetNonUniqueFields();
+		}
+	}
+
 
 	// sets the correct values if an item with the same id already exists
 

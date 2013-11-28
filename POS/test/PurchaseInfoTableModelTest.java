@@ -1,3 +1,5 @@
+import java.util.List;
+
 import junit.framework.Assert;
 
 import org.junit.Before;
@@ -11,7 +13,6 @@ public class PurchaseInfoTableModelTest {
 	private SoldItem item1;
 	private SoldItem item2;
 	private SoldItem item3;
-	private long id = 0;
 	private String name = "Kartul", desc = "Kollane";
 	private double[] prices = { 2.0, 20.0, 12.0 };
 	private int[] quantities = { 2, 4, 3 };
@@ -36,23 +37,18 @@ public class PurchaseInfoTableModelTest {
 		Assert.assertFalse(tabel.getTableRows().isEmpty()); //If it isn't empty then works
 	}
 
-	@Test(expected = IndexOutOfBoundsException.class)
-	public void testGetSumWithNoItems() {
-		testGetSumWithNoItems(0.0);
-	}
-
-	private void testGetSumWithNoItems(double expected)
-			throws IndexOutOfBoundsException {
-		Assert.assertEquals(expected, tabel.getValueAt(0, 4));
+	@Test
+	public void testGetSumWithNoItems()  {
+		List<SoldItem> items= tabel.getTableRows();
+		double sum=0;
+		for (SoldItem si:items) sum+=si.getSum();
+		Assert.assertEquals(0.0, sum);
 	}
 
 	@Test
 	public void testGetSumWithOneItem() {
 		tabel.addItem(item1);
-		for (int i = 0; i < tabel.getTableRows().size(); i++) {
-			Assert.assertEquals(quantities[i] * prices[i], tabel.getTableRows()
-					.get(i).getSum());
-		}
+		Assert.assertEquals(quantities[0] * prices[0], tabel.getTableRows().get(0).getSum());
 
 	}
 

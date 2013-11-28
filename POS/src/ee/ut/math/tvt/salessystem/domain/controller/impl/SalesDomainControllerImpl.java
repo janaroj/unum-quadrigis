@@ -98,10 +98,16 @@ public class SalesDomainControllerImpl implements SalesDomainController {
           }
  	}
      
-     public void saveHistory(HistoryItem item) throws VerificationFailedException {
+     public void saveHistory(HistoryItem item,List<SoldItem> items) throws VerificationFailedException {
+    	 
     	 List<HistoryItem> history = new ArrayList<HistoryItem>();
          history.add(item);
          saveEntities(history);
+         
+         for (SoldItem si : items) {
+  			si.setHistoryItemId(item.getId());
+  		}
+         submitCurrentPurchase(items);
      }
      
 
@@ -134,7 +140,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<SoldItem> loadBoughtItems(int id) {
+	public List<SoldItem> loadBoughtItems(long id) {
 		return session.createQuery("from SoldItem where sale_id = :nr").setParameter("nr", id).list();
 	}
 	

@@ -1,10 +1,13 @@
 package ee.ut.math.tvt.salessystem.ui.model;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
+import org.hsqldb.persist.Log;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 
@@ -67,8 +70,21 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		fireTableDataChanged();
 	}
 	
+	public void removeFromStock(final List<SoldItem> items) throws IllegalArgumentException {
+		int i = 0;
+		while (i < items.size()) {
+			int qnt = items.get(i).getQuantity();
+			long id = items.get(i).getId();
+			StockItem stockItem = getItemById(id);
+			if (stockItem.getQuantity()<qnt) throw new IllegalArgumentException();
+			stockItem.setQuantity(stockItem.getQuantity() - qnt);
+			i++;
+		}
+	}
+	
 	public void removeItem(final StockItem stockItem) throws VerificationFailedException {
 		domainController.removeStockItem(stockItem);
+		fireTableDataChanged();
 	}
 
 	@Override
