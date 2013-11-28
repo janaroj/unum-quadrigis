@@ -34,6 +34,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 			session.flush();
 			transaction.commit();
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			log.error(e);
 			if (transaction != null) {
 				transaction.rollback();
