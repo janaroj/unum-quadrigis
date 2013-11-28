@@ -16,13 +16,14 @@ public class StockTableModelTest {
 	private StockTableModel stockModel;
 	private StockItem stockItem;
 	private SalesDomainController domainController = new SalesDomainControllerImpl();
-	private long id=99;
+	private long id;
 	
 	@Before
 	public void setUp() {
 		stockModel = new StockTableModel(domainController);
-		stockItem = new StockItem(id,"Free meal","campaign",0);
+		stockItem = new StockItem("Free meal","campaign",0);
 		stockModel.addItem(stockItem);
+		id = stockItem.getId();
 	}
 	
 	@Test(expected = NoSuchElementException.class)  //TODO vale exception

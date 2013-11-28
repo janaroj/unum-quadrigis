@@ -2,15 +2,18 @@
 
 import org.apache.log4j.Logger;
 
+import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
+import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 
 /**
  * Stock item table model.
  */
 public class HistoryTableModel extends SalesSystemTableModel<HistoryItem> {
 	private static final long serialVersionUID = 1L;
-
+	
 	private static final Logger log = Logger.getLogger(HistoryTableModel.class);
 	public HistoryTableModel() {
 		super(new String[] {"ID","Date", "Time", "Total Price"});
@@ -57,6 +60,7 @@ public class HistoryTableModel extends SalesSystemTableModel<HistoryItem> {
 
 	        fireTableDataChanged();
 	    }
+	  
 	  
 	  public HistoryItem getItem(int index) {
 		  return rows.get(index);
